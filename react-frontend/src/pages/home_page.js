@@ -1,5 +1,5 @@
 // src/components/HomePage.jsx
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaArrowRight } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 
 function HomePage() {
@@ -85,7 +85,7 @@ if (!data) return (
           Projects
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {data.projects.map((project, i) => (
+          {data.projects.slice(0, 3).map((project, i) => (
             <div
               key={i}
               className="group bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:bg-white/10 hover:border-lime-400/50 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-lime-400/20 animate-fadeInUp"
@@ -102,6 +102,16 @@ if (!data) return (
               </div>
             </div>
           ))}
+        </div>
+        {/* See All Projects Link */}
+        <div className="flex justify-center mt-8">
+          <a
+            href="/projects"
+            className="inline-flex items-center gap-1 text-lime-400 font-semibold text-base hover:underline hover:text-lime-300 transition-all duration-200"
+          >
+            See All Projects
+            <FaArrowRight className="w-4 h-4 ml-1" />
+          </a>
         </div>
       </div>
 
