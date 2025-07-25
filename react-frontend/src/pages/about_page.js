@@ -2,7 +2,7 @@ import React from "react";
 
 function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans px-4 md:px-0 py-16 flex justify-center relative overflow-hidden">
+    <div className="min-h-screen  from-gray-900 via-black to-gray-800 text-white font-sans px-4 md:px-0 py-16 flex justify-center relative overflow-hidden">
       {/* Subtle Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-lime-400/10 to-green-500/10 rounded-full blur-3xl animate-blob1" style={{animationDelay: '0s'}}></div>
@@ -11,18 +11,24 @@ function AboutPage() {
 
       <div className="flex flex-col md:flex-row gap-12 w-full max-w-5xl relative z-10 animate-main-fadein">
         {/* Profile Image Aside - Floating Animation */}
-        <div className="flex flex-col items-center md:items-start md:w-1/3 w-full mb-8 md:mb-0 animate-float">
+        <div className="flex flex-col items-center md:items-start md:w-1/3 w-full mb-8 md:mb-0 profile-float-anim">
           <div className="relative flex items-center justify-center group">
-            {/* Soft glow behind the circle */}
-            <div className="absolute w-60 h-60 bg-gradient-to-br from-lime-400 to-green-500 rounded-full blur-2xl opacity-30 group-hover:scale-110 transition-transform duration-500"></div>
-            {/* Circular image with gradient border */}
-            <div className="w-56 h-56 md:w-60 md:h-60 rounded-full p-1 bg-gradient-to-r from-lime-400 via-green-400 to-lime-500 shadow-2xl relative z-10 flex items-center justify-center hover:scale-110 transition-transform duration-500">
+            {/* Soft blob/gradient behind the image */}
+            <div className="absolute w-72 h-72 sm:w-48 sm:h-48 bg-gradient-to-br from-lime-400 to-green-500 opacity-20 blur-2xl -z-10" style={{clipPath: 'url(#squircle)'}}></div>
+            {/* Squircle/blob image with animated gradient border */}
+            <div className="profile-squircle-border">
               <img
-                src="https://cdn.vectorstock.com/i/500p/54/69/male-user-icon-vector-8865469.jpg"
+                src="/images/purus.jpeg"
                 alt="Profile"
-                className="w-full h-full object-cover rounded-full border-4 border-white/20 shadow-xl"
+                className="profile-squircle-img"
               />
             </div>
+            {/* SVG clipPath for squircle */}
+            <svg width="0" height="0">
+              <clipPath id="squircle" clipPathUnits="objectBoundingBox">
+                <path d="M0.1,0 C0.04,0,0,0.04,0,0.1 V0.9 C0,0.96,0.04,1,0.1,1 H0.9 C0.96,1,1,0.96,1,0.9 V0.1 C1,0.04,0.96,0,0.9,0 Z" />
+              </clipPath>
+            </svg>
           </div>
         </div>
 
@@ -48,7 +54,7 @@ function AboutPage() {
           </div>
 
           {/* About Me */}
-          <div className="bg-white/10 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl shadow-2xl px-8 py-6 hover:border-lime-400/80 transition-colors duration-300 animate-card-glow">
+          <div className="bg-white/10 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl px-8 py-6 card-effect">
             <h3 className="text-xl font-bold text-lime-400 mb-3">About Me</h3>
             <p className="text-gray-100 text-base leading-relaxed">
               I am a dedicated and creative web developer with a strong background in both frontend and backend technologies. My expertise lies in building modern, responsive web applications using{" "}
@@ -60,7 +66,7 @@ function AboutPage() {
           </div>
 
           {/* Skills Section - Animated Badges with Card Glow */}
-          <div className="bg-white/5 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl shadow-lg px-8 py-6 flex flex-col gap-4 animate-card-glow">
+          <div className="bg-white/5 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl px-8 py-6 flex flex-col gap-4 card-effect">
             <h4 className="text-lg font-bold text-lime-400 mb-2">Skills</h4>
             <div className="flex flex-wrap gap-3 justify-start">
               <span className="skill-badge skill-blue">JavaScript</span>
@@ -77,7 +83,7 @@ function AboutPage() {
           </div>
 
           {/* Experience */}
-          <div className="animate-card-glow bg-white/10 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl shadow-2xl px-8 py-6 hover:border-lime-400/80 transition-colors duration-300" style={{animationDelay: '0.2s'}}>
+          <div className="bg-white/10 backdrop-blur-lg border-2 border-lime-400/40 rounded-2xl px-8 py-6 card-effect" style={{animationDelay: '0.2s'}}>
             <h4 className="text-lg font-bold text-lime-400 mb-2">Experience</h4>
             <ul className="space-y-3 text-gray-200 text-base">
               <li>
@@ -134,20 +140,25 @@ function AboutPage() {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-18px); }
         }
-        @keyframes card-glow {
-          0%, 100% { box-shadow: 0 8px 32px 0 #a3e63522, 0 0 0 0 #a3e63544; border-color: #a3e63544; }
-          50% { box-shadow: 0 12px 48px 0 #a3e63555, 0 0 16px 4px #a3e63588; border-color: #a3e63588; }
+        @keyframes profile-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-18px); }
         }
-        .animate-main-fadein { animation: main-fadein 1.2s both; }
-        .animate-slideup-fadein { animation: slideup-fadein 1.2s both; }
-        .animate-float { animation: float 3.5s ease-in-out infinite; }
-        .animate-gradient-shimmer {
-          background-size: 200% 200%;
-          animation: gradient-shimmer 2.5s linear infinite alternate;
+        @keyframes profile-glow {
+          0%, 100% { box-shadow: 0 6px 32px 0 #a3e63533, 0 1.5px 8px 0 #22d3ee22; }
+          50% { box-shadow: 0 12px 48px 0 #a3e63566, 0 4px 16px 0 #22d3ee44; }
         }
-        .animate-blob1 { animation: blob1 12s ease-in-out infinite alternate; }
-        .animate-blob2 { animation: blob2 14s ease-in-out infinite alternate; }
-        .animate-card-glow { animation: card-glow 2.5s ease-in-out infinite alternate; }
+        .profile-float-anim {
+          animation: profile-float 3.5s ease-in-out infinite;
+        }
+        .card-effect {
+          box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12), 0 0 16px 2px #bef26444;
+          transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        .card-effect:hover {
+          box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18), 0 0 20px 3px #bef26466;
+          border-color: #bef264;
+        }
         .skill-badge {
           display: inline-block;
           padding: 0.5rem 1.25rem;
@@ -176,6 +187,37 @@ function AboutPage() {
         .skill-green { background: linear-gradient(90deg, #22c55ecc, #bbf7d0cc 80%); }
         .skill-gray { background: linear-gradient(90deg, #64748bcc, #cbd5e1cc 80%); }
         .skill-red { background: linear-gradient(90deg, #ef4444cc, #fca5a5cc 80%); }
+        .profile-squircle-border {
+          width: 18rem;
+          height: 18rem;
+          padding: 6px;
+          background: linear-gradient(120deg, #a3e635 0%, #22c55e 100%);
+          border-radius: 32% / 38%;
+          box-shadow: 0 6px 32px 0 #a3e63533, 0 1.5px 8px 0 #22d3ee22;
+          animation: profile-glow 3.5s ease-in-out infinite;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: box-shadow 0.3s, transform 0.3s;
+        }
+        @media (max-width: 640px) {
+          .profile-squircle-border {
+            width: 12rem;
+            height: 12rem;
+          }
+        }
+        .profile-squircle-img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          object-position: center 10%;
+          border-radius: 32% / 38%;
+          clip-path: url(#squircle);
+          background: #fff;
+          border: 3px solid rgba(255,255,255,0.18);
+          box-shadow: 0 2px 12px 0 #0002;
+        }
       `}</style>
     </div>
   );

@@ -1,9 +1,48 @@
 // src/components/HomePage.jsx
 import { FaDownload, FaArrowRight } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 
 function HomePage() {
     const [data, setData] = useState(null);
+    const [greeting, setGreeting] = useState("");
+    const [showHello, setShowHello] = useState(false);
+    const [showName, setShowName] = useState(false);
+    const [showTitle, setShowTitle] = useState(false);
+    const [showLocation, setShowLocation] = useState(false);
+    // 3D tilt state
+    const [tilt, setTilt] = useState({ x: 0, y: 0 });
+    const cardRef = useRef(null);
+
+    // Typewriter effect for dynamic name
+    useEffect(() => {
+      if (!data || !data.name) return;
+      const fullGreeting = `I'm ${data.name}`;
+      let current = 0;
+      setGreeting("");
+      const interval = setInterval(() => {
+        current++;
+        setGreeting(fullGreeting.slice(0, current));
+        if (current === fullGreeting.length) {
+          clearInterval(interval);
+        }
+      }, 60);
+      return () => clearInterval(interval);
+    }, [data]);
+
+    // Sequentially show each line
+    useEffect(() => {
+      setShowHello(false);
+      setShowName(false);
+      setShowTitle(false);
+      setShowLocation(false);
+      const timers = [];
+      timers.push(setTimeout(() => setShowHello(true), 200));
+      timers.push(setTimeout(() => setShowName(true), 900));
+      timers.push(setTimeout(() => setShowTitle(true), 1800));
+      timers.push(setTimeout(() => setShowLocation(true), 2500));
+      return () => timers.forEach(clearTimeout);
+    }, []);
 
   useEffect(() => {
     fetch("http://localhost:8000/api/profile")
@@ -12,7 +51,7 @@ function HomePage() {
       .catch((err) => console.error("API Error", err));
   }, []);
 if (!data) return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient from-gray-900 via-black to-gray-800 flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-lime-400 mx-auto mb-4"></div>
         <div className="text-lg text-white animate-pulse">Loading...</div>
@@ -23,47 +62,59 @@ if (!data) return (
   return (
     <div>
         {/* Hero Section */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between mt-20 max-w-7xl mx-auto">
-        {/* Left: Name, title, bio */}
-        <div className="md:w-1/2 space-y-8 text-left animate-fadeInLeft">
-          <div className="relative">
-            <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-lime-400 to-white animate-gradient-x">
-              {data.name}
-            </h1>
-            <div className="absolute -top-2 -left-2 text-5xl md:text-7xl font-bold text-lime-400/20 -z-10">
-              {data.name}
-            </div>
-          </div>
-          
-          <div className="relative overflow-hidden">
-            <p className="text-gray-300 max-w-lg text-lg leading-relaxed animate-fadeInUp" style={{animationDelay: '0.3s'}}>
-              {data.bio}
-            </p>
-          </div>
-          
-          <div className="animate-fadeInUp" style={{animationDelay: '0.6s'}}>
-            <button className="relative mt-6 bg-gradient-to-r from-lime-500 to-green-500 text-black font-bold px-8 py-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 group overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-lime-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative z-10 flex items-center gap-2">
-                Download CV 
-                <FaDownload  className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-            </button>
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center mt-20 max-w-6xl mx-auto bg-transparent animate-fadeInInitial gap-8 md:gap-16 py-12">
+        {/* Left: Text Section */}
+        <div className="flex-1 flex flex-col justify-center items-start max-w-xl space-y-6 animate-fadeInLeft">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+            <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'}`}>Hello,</span>
+            <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'}`} style={{color: '#a3e635', fontWeight: 'bold'}}>{greeting}</span>
+            <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'}`}>Laravel Developer</span>
+            <span className={`block ${showLocation ? 'fade-in-up' : 'opacity-0'}`}>in Sri Lanka.</span>
+          </h1>
+          <p className="text-gray-300 text-lg max-w-lg">
+            I’m a passionate IT student at SLIATE Jaffna and a Software Engineer Intern at Bohar Solutions. I specialize in Laravel and modern web technologies, gaining hands-on experience through real-world projects. I thrive in collaborative, growth-focused environments and am driven to build impactful tech solutions.
+          </p>
+          <div className="flex gap-4 mt-2">
+            <a href="/cv.pdf" download className="px-6 py-3 rounded-full border border-lime-400 text-lime-400 font-semibold bg-transparent hover:bg-lime-400 hover:text-black transition-all duration-200 shadow-md flex items-center gap-2">
+              <span>Download CV</span>
+              <FaDownload className="w-5 h-5" />
+            </a>
           </div>
         </div>
-
-        {/* Right: Profile Image */}
-        <div className="md:w-1/2 mt-16 md:mt-0 flex justify-center animate-fadeInRight">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-lime-400 to-green-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
-            <div className="relative">
+        {/* Right: Image Section */}
+        <div className="flex-1 flex justify-center items-center animate-fadeInRight">
+          <div
+            className="relative flex items-center justify-center group"
+            style={{minWidth: '340px', minHeight: '340px', perspective: '1200px'}}
+            ref={cardRef}
+            onMouseMove={e => {
+              const rect = cardRef.current.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+              const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+              setTilt({ x: y * 12, y: -x * 12 });
+            }}
+            onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+          >
+            {/* Animated glow background */}
+            <div className="absolute w-[340px] h-[340px] rounded-[1.5rem] -z-10 animate-profile-blob-pulse profile-glow-bg"></div>
+            {/* 3D card with image */}
+            <div
+              className="rounded-[1.5rem] border-2 shadow-2xl transition-transform duration-300"
+              style={{
+                width: '400px',
+                height: '400px',
+                borderColor: '#414741',
+                background: 'none',
+                zIndex: 2,
+                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1,1,1)`
+              }}
+            >
               <img
-                src="https://cdn.vectorstock.com/i/500p/54/69/male-user-icon-vector-8865469.jpg"
+                src="/images/purus.jpeg"
                 alt="Profile"
-                className="w-80 h-80 rounded-full object-cover border-4 border-gradient-to-r from-lime-400 to-green-500 shadow-2xl hover:scale-105 transition-all duration-500 animate-float"
+                className="object-cover w-full h-full rounded-[1.3rem] transition-transform duration-300"
+                style={{background: 'none'}}
               />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-lime-400/20 to-transparent"></div>
             </div>
           </div>
         </div>
@@ -149,6 +200,17 @@ if (!data) return (
           }
         }
 
+        @keyframes fadeInInitial {
+          from {
+            opacity: 0;
+            transform: scale(0.98) translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
         @keyframes float {
           0%, 100% {
             transform: translateY(0px);
@@ -167,6 +229,21 @@ if (!data) return (
             background-size: 200% 200%;
             background-position: right center;
           }
+        }
+
+        @keyframes profileFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-18px); }
+        }
+        .animate-profile-float {
+          animation: profileFloat 3.5s ease-in-out infinite;
+        }
+        @keyframes profileBlobPulse {
+          0%, 100% { opacity: 0.7; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.08); }
+        }
+        .animate-profile-blob-pulse {
+          animation: profileBlobPulse 5s ease-in-out infinite;
         }
 
         .animate-fadeInLeft {
@@ -188,6 +265,38 @@ if (!data) return (
 
         .animate-gradient-x {
           animation: gradient-x 3s ease infinite;
+        }
+
+        .animate-fadeInInitial {
+          animation: fadeInInitial 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        /* Remove squircle/floating image styles for clean card look */
+        .fade-in-up {
+          opacity: 1;
+          animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+        }
+        .opacity-0 {
+          opacity: 0;
+        }
+        .profile-gradient-border {
+          background: conic-gradient(from 180deg, #a3e635, #22c55e, #a3e635 100%);
+          padding: 8px;
+          position: relative;
+        }
+        @keyframes profileGlow {
+          0%, 100% { box-shadow: 0 0 32px 8px #a3e63544, 0 0 0 0 #22c55e44; opacity: 0.7; }
+          50% { box-shadow: 0 0 48px 16px #a3e63588, 0 0 0 8px #22c55e44; opacity: 1; }
+        }
+        .animate-profile-glow {
+          box-shadow: 0 0 32px 8px #a3e63544, 0 0 0 0 #22c55e44;
+          animation: profileGlow 3.5s ease-in-out infinite;
+        }
+        /* No extra border/glow/floating for simple card */
+        .profile-glow-bg {
+          background: radial-gradient(ellipse at 60% 40%, #a3e63533 0%, #22c55e22 60%, transparent 100%);
+          filter: blur(24px) brightness(1.2);
+          opacity: 0.7;
+          transition: opacity 0.3s;
         }
       `}</style>
     </div>
