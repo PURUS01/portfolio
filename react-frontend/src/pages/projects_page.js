@@ -42,46 +42,62 @@ function ProjectsPage() {
         </div>
 
         <div className="max-w-6xl w-full mx-auto py-8 px-4 md:px-16 animate-fadeInUp">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 group/project-cards">
-          {projects.map((project, idx) => (
-            <div
-              key={project.id}
-              className={`card-zoom-glow bg-white/10 backdrop-blur-lg border border-lime-400/20 rounded-2xl p-6 shadow-2xl flex flex-col justify-between opacity-0 translate-y-8 animate-cardFadeIn group/card`}
-              style={{ animationDelay: `${idx * 120}ms`, animationFillMode: 'forwards' }}
-            >
-              <div className="flex items-center mb-4">
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="w-10 h-10 rounded-full object-cover border border-white/20 mr-3 group-hover/card:ring-2 group-hover/card:ring-lime-400 transition" />
-                <h2 className="text-xl font-bold text-lime-400">{project.name}</h2>
-              </div>
-              <p className="text-gray-200 mb-4 min-h-[60px]">
-                {project.description}
-              </p>
-              <div className="flex flex-col gap-2 md:flex-col md:items-start md:justify-between mt-4 min-w-0">
-                <div className="flex flex-wrap gap-2 min-w-0">
-                  {project.languages.map((lang, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-gray-800 text-lime-300 px-3 py-1 rounded-full text-xs font-semibold"
-                    >
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="github-link-btn font-bold whitespace-normal break-words w-full max-w-full text-center overflow-hidden md:mt-2"
-                >
-                  View on GitHub
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+        <div className="flex flex-col gap-12 group/project-cards">
+  {projects.map((project, idx) => (
+    <div
+      key={project.id}
+      className={`relative flex items-start gap-6 group/card overflow-hidden rounded-2xl p-6 shadow-xl border border-lime-400/20 backdrop-blur-lg bg-white/10 animate-cardFadeIn transform transition-all duration-700 ease-in-out hover:scale-[1.03] hover:shadow-2xl hover:border-lime-300`}
+      style={{ animationDelay: `${idx * 200}ms`, animationFillMode: 'forwards' }}
+    >
+      {/* Glowing animated background */}
+      <div className="absolute inset-0 z-0 pointer-events-none before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-br before:from-lime-400/10 before:to-green-500/10 before:blur-2xl before:opacity-20 transition-all duration-700"></div>
+
+      {/* Card content */}
+    <div className="flex-1 relative z-10 transition-all duration-500">
+      {/* Header */}
+      <div className="flex items-center mb-3 transition-all duration-500">
+        <img
+          src={project.image}
+          alt={project.name}
+          className="w-10 h-10 rounded-full object-cover border border-white/20 mr-3 transition-all duration-300 ease-in-out group-hover/card:ring-2 group-hover/card:ring-lime-400"
+        />
+        <h2 className="text-xl font-bold text-lime-400 hover:underline underline-offset-4 transition-all duration-300 ease-in-out">
+          {project.name}
+        </h2>
+      </div>
+
+      {/* Description */}
+      <p className="text-gray-200 text-sm mb-4 opacity-80 group-hover/card:opacity-100 transition-opacity duration-500 ease-in-out delay-100">
+        {project.description}
+      </p>
+
+      {/* Tags */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {project.languages.map((lang, langIdx) => (
+          <span
+            key={langIdx}
+            className="bg-gray-800/80 text-lime-300 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 hover:bg-lime-500/10 hover:text-lime-200 shadow-sm shadow-lime-400/10"
+          >
+            {lang}
+          </span>
+        ))}
+      </div>
+
+      {/* GitHub Link */}
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block text-sm font-semibold text-lime-300 hover:text-white border border-lime-300 px-4 py-1 rounded-full hover:bg-lime-400/10 transition-all duration-300 ease-in-out shadow-md shadow-lime-300/10"
+      >
+        🚀 View on GitHub
+      </a>
+    </div>
+
+    </div>
+  ))}
+</div>
+
       </div>
 
       <style jsx>{`
