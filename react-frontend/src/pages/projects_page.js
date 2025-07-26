@@ -31,9 +31,17 @@ const projects = [
 
 function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-gradient from-gray-900 via-black to-gray-800 text-white font-sans px-6 relative overflow-hidden">
-      <div className="max-w-6xl w-full mx-auto py-16 px-4 md:px-16 animate-fadeInUp">
-        <h1 className="text-4xl font-bold mb-12 text-center">Projects</h1>
+    <div className="min-h-screen text-white font-sans px-4 md:px-0 py-16 flex justify-center relative overflow-hidden">
+      <div className="w-full max-w-6xl relative z-10 animate-main-fadein">
+        {/* Page Heading */}
+        <div className="text-center mb-16 animate-fadeInUp">
+          <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-lime-400 to-white mb-4">
+            Projects
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-lime-400 to-green-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div className="max-w-6xl w-full mx-auto py-8 px-4 md:px-16 animate-fadeInUp">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 group/project-cards">
           {projects.map((project, idx) => (
             <div
@@ -74,7 +82,9 @@ function ProjectsPage() {
             </div>
           ))}
         </div>
-        <style jsx>{`
+      </div>
+
+      <style jsx>{`
    @keyframes fadeInUp {
      from {
        opacity: 0;
@@ -147,6 +157,41 @@ function ProjectsPage() {
        padding: 0.4rem 0.6rem;
        font-size: 0.95rem;
      }
+   }
+   @keyframes blob1 {
+     0%, 100% { transform: scale(1) translate(0, 0); }
+     50% { transform: scale(1.1) translate(30px, -20px); }
+   }
+       @keyframes blob2 {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.08) translate(-40px, 30px); }
+    }
+    @keyframes blob3 {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.14) translate(30px, -40px); }
+    }
+    @keyframes blob4 {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.07) translate(-25px, 35px); }
+    }
+   @keyframes main-fadein {
+     0% { opacity: 0; }
+     100% { opacity: 1; }
+   }
+   .animate-blob1 {
+     animation: blob1 8s ease-in-out infinite;
+   }
+   .animate-blob2 {
+     animation: blob2 10s ease-in-out infinite;
+   }
+   .animate-blob3 {
+     animation: blob3 12s ease-in-out infinite;
+   }
+   .animate-blob4 {
+     animation: blob4 9s ease-in-out infinite;
+   }
+   .animate-main-fadein {
+     animation: main-fadein 1s ease-out forwards;
    }
  `}</style>
       </div>

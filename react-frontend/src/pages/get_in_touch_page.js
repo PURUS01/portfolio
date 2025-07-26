@@ -2,26 +2,29 @@ import React from 'react';
 
 function GetInTouchPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans px-4 relative overflow-hidden flex items-center justify-center">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-lime-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }}></div>
-      </div>
+        <div className="min-h-screen text-white font-sans px-4 md:px-0 py-8 flex justify-center relative overflow-hidden">
+      <div className="w-full max-w-6xl relative z-10 animate-main-fadein">
+        {/* Page Heading */}
+        <div className="text-center mb-16 animate-fadeInUp">
+          <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-lime-400 to-white mb-4">
+            Get in Touch
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-lime-400 to-green-500 mx-auto rounded-full"></div>
+        </div>
 
-      {/* Contact Form Card */}
-      <div className="relative z-10 w-full max-w-2xl animate-fadeInUp">
-        <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 hover:border-lime-400/30 transition-all duration-500">
-          {/* Header */}
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-lime-400 to-white animate-gradient-x">
-              Get in Touch
-            </h2>
-            <p className="text-gray-400 mt-3 text-sm">
-              Feel free to reach out for collaborations or just a chat!
-            </p>
-          </div>
+        <div className="flex items-center justify-center">
+          {/* Contact Form Card */}
+          <div className="relative z-10 w-full max-w-2xl animate-fadeInUp">
+            <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 hover:border-lime-400/30 transition-all duration-500">
+              {/* Form Header */}
+              <div className="text-center mb-10">
+                <h2 className="text-2xl font-bold text-lime-400 mb-3">
+                  Send a Message
+                </h2>
+                <p className="text-gray-400 text-sm">
+                  Feel free to reach out for collaborations or just a chat!
+                </p>
+              </div>
 
           {/* Form */}
           <form className="space-y-6">
@@ -55,6 +58,7 @@ function GetInTouchPage() {
           </form>
         </div>
       </div>
+      </div>
 
       <style jsx>{`
         @keyframes fadeInUp {
@@ -87,7 +91,43 @@ function GetInTouchPage() {
         .animate-gradient-x {
           animation: gradient-x 3s ease infinite;
         }
+        @keyframes blob1 {
+          0%, 100% { transform: scale(1) translate(0, 0); }
+          50% { transform: scale(1.1) translate(30px, -20px); }
+        }
+        @keyframes blob2 {
+          0%, 100% { transform: scale(1) translate(0, 0); }
+          50% { transform: scale(1.08) translate(-40px, 30px); }
+        }
+        @keyframes blob3 {
+          0%, 100% { transform: scale(1) translate(0, 0); }
+          50% { transform: scale(1.13) translate(40px, -30px); }
+        }
+        @keyframes blob4 {
+          0%, 100% { transform: scale(1) translate(0, 0); }
+          50% { transform: scale(1.05) translate(-35px, 25px); }
+        }
+        @keyframes main-fadein {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        .animate-blob1 {
+          animation: blob1 8s ease-in-out infinite;
+        }
+        .animate-blob2 {
+          animation: blob2 10s ease-in-out infinite;
+        }
+        .animate-blob3 {
+          animation: blob3 11s ease-in-out infinite;
+        }
+        .animate-blob4 {
+          animation: blob4 13s ease-in-out infinite;
+        }
+        .animate-main-fadein {
+          animation: main-fadein 1s ease-out forwards;
+        }
       `}</style>
+      </div>
     </div>
     );
 }

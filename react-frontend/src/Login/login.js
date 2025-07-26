@@ -122,13 +122,15 @@ function LoginPage() {
 
           {/* Back to Home */}
           <div className="mt-8 text-center animate-fadeInUp" style={{animationDelay: '1.4s'}}>
-            <a 
-              href="/"
-              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 group"
+            <button 
+              onClick={() => {
+                window.location.href = '/';
+              }}
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 group cursor-pointer"
             >
               <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
               Back to Portfolio
-            </a>
+            </button>
           </div>
         </div>
 
