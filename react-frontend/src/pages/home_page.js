@@ -45,16 +45,18 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/profile")
-      .then((res) => res.json())
-      .then(setData)
-      .catch((err) => console.error("API Error", err));
+    // Instead of fetching from an API, set fixed data
+    const fixedData = {
+      name: "Kukanenthiran Purusothman",
+      title: "Laravel Developer",
+    };
+    setData(fixedData);
   }, []);
 
   if (!data) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-lime-400 mx-auto mb-4"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#0077C8] mx-auto mb-4"></div>
         <div className="text-lg text-white animate-pulse">Loading...</div>
       </div>
     </div>
@@ -73,8 +75,8 @@ function HomePage() {
               <div className="animate-fadeInUp">
                 <div className="relative">
                   {/* Decorative Elements */}
-                  <div className="absolute -top-4 -right-4 w-16 h-16 border border-lime-400/30 rounded-full animate-pulse"></div>
-                  <div className="absolute -bottom-6 -left-6 w-20 h-20 border border-lime-400/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute -top-4 -right-4 w-16 h-16 border border-[#0077C8]/30 rounded-full animate-pulse"></div>
+                  <div className="absolute -bottom-6 -left-6 w-20 h-20 border border-[#0077C8]/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
 
                   {/* Main Image Container */}
                   <div
@@ -89,7 +91,7 @@ function HomePage() {
                     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
                   >
                     {/* Background Shape */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-lime-400/20 to-green-500/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#0077C8]/20 to-[#0077C8]/10 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
 
                     {/* Image Container */}
                     <div
@@ -99,7 +101,7 @@ function HomePage() {
                       }}
                     >
                       {/* Glow Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-lime-400/10 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0077C8]/10 via-transparent to-transparent"></div>
 
                       {/* Profile Image */}
                       <img
@@ -107,7 +109,7 @@ function HomePage() {
                         alt="Kukanenthiran Purusothman"
                         className="w-full h-full object-cover transition-all duration-700 hover:brightness-110 filter"
                         style={{
-                          filter: 'drop-shadow(0 25px 50px rgba(163, 230, 53, 0.2))'
+                          filter: 'drop-shadow(0 25px 50px #0077C833)'
                         }}
                       />
 
@@ -117,9 +119,9 @@ function HomePage() {
                   </div>
 
                   {/* Floating Elements for Visual Interest */}
-                  <div className="absolute top-16 -left-4 w-3 h-3 bg-lime-400/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
-                  <div className="absolute bottom-24 -right-3 w-4 h-4 bg-green-400/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
-                  <div className="absolute top-1/3 -right-8 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
+                  <div className="absolute top-16 -left-4 w-3 h-3 bg-[#0077C8]/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-24 -right-3 w-4 h-4 bg-[#0077C8]/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+                  <div className="absolute top-1/3 -right-8 w-2 h-2 bg-[#0077C8]/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
                 </div>
               </div>
 
@@ -129,7 +131,7 @@ function HomePage() {
                 <div className="space-y-4">
                   <h1 className="leading-none tracking-tight">
                     <span className="block text-gray-200 font-light text-3xl sm:text-4xl">Hello,</span>
-                    <span className="block text-lime-400 font-black text-4xl sm:text-5xl">I'm Purusothman</span>
+                    <span className="block text-[#0077C8] font-black text-4xl sm:text-5xl">I'm Purusothman</span>
                     <span className="block text-white font-bold text-2xl sm:text-3xl">Laravel Developer</span>
                   </h1>
                 </div>
@@ -139,7 +141,7 @@ function HomePage() {
                   <a
                     href="/cv.pdf"
                     download
-                    className="inline-flex items-center gap-3 px-6 py-3 bg-lime-400 text-black font-bold text-base sm:text-lg rounded-lg hover:bg-lime-500 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-lime-400/40 border-2 border-lime-300 hover:border-lime-200"
+                    className="inline-flex items-center gap-3 px-6 py-3 bg-[#0077C8] text-white font-bold text-base sm:text-lg rounded-lg hover:bg-[#005F9E] transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-[#00BFFF]/40 border-2 border-[#0077C8]/60 hover:border-[#005F9E]/40"
                   >
                     <span>DOWNLOAD CV</span>
                     <FaDownload className="w-4 h-4" />
@@ -155,15 +157,15 @@ function HomePage() {
               {/* Left Content - Takes up more space */}
               <div className="lg:col-span-7 space-y-8 animate-fadeInLeft relative">
                 {/* Decorative elements around text */}
-                <div className="absolute -top-8 -left-8 w-16 h-16 border border-lime-400/20 rounded-full animate-pulse"></div>
-                <div className="absolute -bottom-4 -right-4 w-12 h-12 border border-green-400/15 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 -right-6 w-8 h-8 bg-lime-400/10 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute -top-8 -left-8 w-16 h-16 border border-[#0077C8]/20 rounded-full animate-pulse"></div>
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 border border-[#0077C8]/15 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/2 -right-6 w-8 h-8 bg-[#0077C8]/10 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
 
                 {/* Main Heading */}
                 <div className="space-y-6">
                   <h1 className="leading-none tracking-tight">
                     <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-4xl lg:text-5xl xl:text-6xl`}>Hello,</span>
-                    <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-lime-400 font-black text-5xl lg:text-6xl xl:text-7xl`}>{greeting}</span>
+                    <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-[#0077C8] font-black text-5xl lg:text-6xl xl:text-7xl`}>{greeting}</span>
                     <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-3xl lg:text-4xl xl:text-5xl`}>Laravel Developer</span>
                   </h1>
                 </div>
@@ -173,7 +175,7 @@ function HomePage() {
                   <a
                     href="/cv.pdf"
                     download
-                    className="inline-flex items-center gap-4 px-8 py-4 bg-lime-400 text-black font-bold text-lg rounded-lg hover:bg-lime-500 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-lime-400/40 border-2 border-lime-300 hover:border-lime-200"
+                    className="inline-flex items-center gap-4 px-8 py-4 bg-[#0077C8] text-white font-bold text-lg rounded-lg hover:bg-[#005F9E] transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-[#00BFFF]/40 border-2 border-[#0077C8]/60 hover:border-[#005F9E]/40"
                   >
                     <span>DOWNLOAD CV</span>
                     <FaDownload className="w-5 h-5" />
@@ -185,8 +187,8 @@ function HomePage() {
               <div className="lg:col-span-5 flex justify-center lg:justify-end animate-fadeInRight">
                 <div className="relative">
                   {/* Decorative Elements */}
-                  <div className="absolute -top-8 -right-8 w-24 h-24 border border-lime-400/30 rounded-full animate-pulse"></div>
-                  <div className="absolute -bottom-12 -left-12 w-32 h-32 border border-lime-400/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute -top-8 -right-8 w-24 h-24 border border-[#0077C8]/30 rounded-full animate-pulse"></div>
+                  <div className="absolute -bottom-12 -left-12 w-32 h-32 border border-[#0077C8]/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
 
                   {/* Main Image Container */}
                   <div
@@ -200,7 +202,7 @@ function HomePage() {
                     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
                   >
                     {/* Background Shape */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-lime-400/20 to-green-500/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#0077C8]/20 to-[#00BFFF]/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
 
                     {/* Image Container */}
                     <div
@@ -210,7 +212,7 @@ function HomePage() {
                       }}
                     >
                       {/* Glow Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-lime-400/10 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0077C8]/10 via-transparent to-transparent"></div>
 
                       {/* Profile Image */}
                       <img
@@ -218,7 +220,7 @@ function HomePage() {
                         alt="Kukanenthiran Purusothman"
                         className="w-full h-full object-cover transition-all duration-700 hover:brightness-110 filter"
                         style={{
-                          filter: 'drop-shadow(0 25px 50px rgba(163, 230, 53, 0.2))'
+                          filter: 'drop-shadow(0 25px 50px #0077C833)'
                         }}
                       />
 
@@ -228,9 +230,9 @@ function HomePage() {
                   </div>
 
                   {/* Floating Elements for Visual Interest */}
-                  <div className="absolute top-20 -left-8 w-4 h-4 bg-lime-400/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
-                  <div className="absolute bottom-32 -right-6 w-6 h-6 bg-green-400/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
-                  <div className="absolute top-1/3 -right-12 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
+                  <div className="absolute top-20 -left-8 w-4 h-4 bg-[#0077C8]/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-32 -right-6 w-6 h-6 bg-[#0077C8]/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+                  <div className="absolute top-1/3 -right-12 w-2 h-2 bg-[#0077C8]/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
                 </div>
               </div>
             </div>
@@ -241,7 +243,7 @@ function HomePage() {
         <div className="relative z-10 max-w-5xl mx-auto mt-8 mb-20 px-6 animate-fadeInUp" style={{ animationDelay: '1.5s' }}>
           <p className="text-sm text-gray-400 uppercase tracking-widest mb-8 text-center">Worked with</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center text-gray-300">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 py-4 px-6 rounded-xl hover:bg-white/10 hover:border-lime-400/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-lime-400/20">
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 py-4 px-6 rounded-xl hover:bg-white/10 hover:border-[#0077C8]/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-[#0077C8]/20">
               Bohar Solutions
             </div>
           </div>
@@ -305,16 +307,16 @@ function HomePage() {
         @keyframes breathing-glow {
           0%, 100% {
             box-shadow: 
-              0 0 20px rgba(163, 230, 53, 0.3),
-              0 0 40px rgba(163, 230, 53, 0.2),
-              0 0 60px rgba(163, 230, 53, 0.1);
+              0 0 20px #0077C84d,
+              0 0 40px #0077C833,
+              0 0 60px #0077C81a;
             transform: scale(1);
           }
           50% {
             box-shadow: 
-              0 0 30px rgba(163, 230, 53, 0.5),
-              0 0 60px rgba(163, 230, 53, 0.3),
-              0 0 90px rgba(163, 230, 53, 0.2);
+              0 0 30px #0077C880,
+              0 0 60px #0077C84d,
+              0 0 90px #0077C833;
             transform: scale(1.02);
           }
         }

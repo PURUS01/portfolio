@@ -1,24 +1,24 @@
 import React from 'react';
 
 function GetInTouchPage() {
-    return (
-        <div className="min-h-screen text-white font-sans px-4 md:px-0 py-8 flex justify-center relative overflow-hidden">
+  return (
+    <div className="min-h-screen text-white font-sans px-4 md:px-0 py-8 flex justify-center relative overflow-hidden">
       <div className="w-full max-w-6xl relative z-10 animate-main-fadein">
         {/* Page Heading */}
         <div className="text-center mb-16 animate-fadeInUp">
-          <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-lime-400 to-white mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#0077C8] to-white mb-4">
             Get in Touch
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-lime-400 to-green-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#0077C8] to-[#00BFFF] mx-auto rounded-full"></div>
         </div>
 
         <div className="flex items-center justify-center">
           {/* Contact Form Card */}
           <div className="relative z-10 w-full max-w-2xl animate-fadeInUp">
-            <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 hover:border-lime-400/30 transition-all duration-500">
+            <div className="bg-white/5 backdrop-blur-md p-10 rounded-3xl border border-white/10 shadow-2xl hover:bg-white/10 hover:border-[#0077C8]/30 transition-all duration-500">
               {/* Form Header */}
               <div className="text-center mb-10">
-                <h2 className="text-2xl font-bold text-lime-400 mb-3">
+                <h2 className="text-2xl font-bold text-[#0077C8] mb-3">
                   Send a Message
                 </h2>
                 <p className="text-gray-400 text-sm">
@@ -26,41 +26,41 @@ function GetInTouchPage() {
                 </p>
               </div>
 
-          {/* Form */}
-          <form className="space-y-6">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-lime-400 focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-              required
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-lime-400 focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-              required
-            />
-            <textarea
-              placeholder="Your Message"
-              rows={6}
-              className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-lime-400 focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-              required
-            ></textarea>
-            <button
-              type="submit"
-              className="w-full mt-4 bg-gradient-to-r from-lime-500 to-green-500 text-black font-bold py-4 rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 group"
-            >
-              <span className="flex items-center justify-center gap-2">
-                Send Message
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </span>
-            </button>
-          </form>
+              {/* Form */}
+              <form className="space-y-6">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
+                  required
+                />
+                <textarea
+                  placeholder="Your Message"
+                  rows={6}
+                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
+                  required
+                ></textarea>
+                <button
+                  type="submit"
+                  className="w-full mt-4 bg-gradient-to-r from-[#0077C8] to-[#00BFFF] text-white font-bold py-4 rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 group"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    Send Message
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
 
-      <style jsx>{`
+        <style jsx>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -129,7 +129,7 @@ function GetInTouchPage() {
       `}</style>
       </div>
     </div>
-    );
+  );
 }
 
 export default GetInTouchPage;

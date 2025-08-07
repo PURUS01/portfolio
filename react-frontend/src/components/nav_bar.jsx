@@ -30,7 +30,7 @@ function Navbar() {
         if (element) {
           const offsetTop = element.offsetTop;
           const offsetHeight = element.offsetHeight;
-          
+
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section);
             break;
@@ -56,7 +56,7 @@ function Navbar() {
       <div className="md:hidden flex justify-center mt-28 px-4">
         <div className="w-full max-w-sm border border-white/10 rounded-full px-6 py-2">
           <ul className="flex justify-center space-x-6 text-xl text-gray-300">
-            <li className="hover:text-green-500 hover:scale-125 transition-all">
+            <li className="hover:text-[#00BFFF] hover:scale-125 transition-all">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
               </a>
@@ -89,12 +89,11 @@ function Navbar() {
               <li key={id} className="relative group">
                 <button
                   onClick={() => scrollToSection(id)}
-                  className={`cursor-pointer transition-all duration-300 hover:scale-110 hover:text-lime-400 ${
-                    activeSection === id ? "text-lime-400" : ""
-                  }`}
+                  className={`cursor-pointer transition-all duration-300 hover:scale-110 hover:text-[#00BFFF] ${activeSection === id ? "text-[#0077C8]" : ""
+                    }`}
                 >
                   {name}
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 group-hover:w-full transition-all duration-300"></div>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00BFFF] group-hover:w-full transition-all duration-300"></div>
                 </button>
               </li>
             ))}
@@ -104,7 +103,7 @@ function Navbar() {
         {/* Social media icons */}
         <div className="hidden md:block bg-white/5 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
           <ul className="flex space-x-6 text-xl text-gray-300">
-            <li className="hover:text-green-500 cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
+            <li className="hover:text-[#00BFFF] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
               </a>
@@ -143,9 +142,8 @@ function Navbar() {
               <li key={id}>
                 <button
                   onClick={() => scrollToSection(id)}
-                  className={`block py-2 hover:text-lime-400 w-full ${
-                    activeSection === id ? "text-lime-400 font-semibold" : ""
-                  }`}
+                  className={`block py-2 hover:text-[#00BFFF] w-full ${activeSection === id ? "text-[#0077C8] font-semibold" : ""
+                    }`}
                 >
                   {name}
                 </button>

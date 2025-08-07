@@ -1,0 +1,68 @@
+:root {
+    --color-primary: #0077C8;
+    --color-accent: #00BFFF;
+    --color-bg-dark: #0B0F1A;
+    --color-bg-box: #1A1F2E;
+    --color-grid: #232C3B;
+    --color-text-main: #FFFFFF;
+    --color-text-secondary: #B0B8C1;
+    --color-button-hover: #005F9E;
+    --color-success: #4CAF50;
+    --color-info: #2196F3;
+    --color-warning: #FFC107;
+    --color-danger: #F44336;
+}
+
+body {
+    background: var(--color-bg-dark);
+    color: var(--color-text-main);
+}
+
+.card,
+.box,
+.container {
+    background: var(--color-bg-box);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-primary);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.button-primary {
+    background: var(--color-primary);
+    color: var(--color-text-main);
+}
+
+.button-primary:hover {
+    background: var(--color-button-hover);
+    color: var(--color-text-main);
+}
+
+.success {
+    color: var(--color-success);
+}
+
+.info {
+    color: var(--color-info);
+}
+
+.warning {
+    color: var(--color-warning);
+}
+
+.danger {
+    color: var(--color-danger);
+}

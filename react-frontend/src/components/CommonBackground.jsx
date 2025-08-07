@@ -32,28 +32,28 @@ function CommonBackground() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Blobs - more transparent for subtlety */}
         <div
-          className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-lime-400/5 to-green-500/5 rounded-full blur-3xl animate-blob1"
+          className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-[#0077C8]/5 to-[#00BFFF]/5 rounded-full blur-3xl animate-blob1"
           style={{
             animationDelay: '0s',
             transform: `translateY(${scrollY * factors.blob1}px)`
           }}
         ></div>
         <div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-green-400/5 to-lime-500/5 rounded-full blur-3xl animate-blob2"
+          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-[#00BFFF]/5 to-[#0077C8]/5 rounded-full blur-3xl animate-blob2"
           style={{
             animationDelay: '2s',
             transform: `translateY(-${scrollY * factors.blob2}px)`
           }}
         ></div>
         <div
-          className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-r from-lime-400/6 to-green-400/6 rounded-full blur-3xl animate-blob3"
+          className="absolute top-1/2 left-1/3 w-64 h-64 bg-gradient-to-r from-[#0077C8]/6 to-[#00BFFF]/6 rounded-full blur-3xl animate-blob3"
           style={{
             animationDelay: '4s',
             transform: `translateY(${scrollY * factors.blob3}px)`
           }}
         ></div>
         <div
-          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-gradient-to-r from-white/8 to-lime-400/8 rounded-full blur-3xl animate-blob4"
+          className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-gradient-to-r from-white/8 to-[#0077C8]/8 rounded-full blur-3xl animate-blob4"
           style={{
             animationDelay: '6s',
             transform: `translateY(-${scrollY * factors.blob4}px)`
@@ -61,20 +61,20 @@ function CommonBackground() {
         ></div>
         {/* Colored Particles - more transparent for smoothness */}
         <div
-          className="absolute top-1/4 right-1/4 w-2 h-2 bg-lime-400/30 rounded-full animate-pulse"
+          className="absolute top-1/4 right-1/4 w-2 h-2 bg-[#00BFFF]/30 rounded-full animate-pulse"
           style={{
             transform: `translateY(${scrollY * factors.dot1}px)`
           }}
         ></div>
         <div
-          className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-green-400/20 rounded-full animate-pulse"
+          className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-[#0077C8]/20 rounded-full animate-pulse"
           style={{
             animationDelay: '1s',
             transform: `translateY(-${scrollY * factors.dot2}px)`
           }}
         ></div>
         <div
-          className="absolute top-3/4 left-1/6 w-1 h-1 bg-lime-300/30 rounded-full animate-pulse"
+          className="absolute top-3/4 left-1/6 w-1 h-1 bg-[#00BFFF]/30 rounded-full animate-pulse"
           style={{
             animationDelay: '2s',
             transform: `translateY(${scrollY * factors.dot3}px)`
