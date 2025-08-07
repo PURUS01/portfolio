@@ -56,22 +56,22 @@ function Navbar() {
       <div className="md:hidden flex justify-center mt-28 px-4">
         <div className="w-full max-w-sm border border-white/10 rounded-full px-6 py-2">
           <ul className="flex justify-center space-x-6 text-xl text-gray-300">
-            <li className="hover:text-[#00BFFF] hover:scale-125 transition-all">
+            <li className="hover:text-[#25D366] hover:scale-125 transition-all">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
               </a>
             </li>
-            <li className="hover:text-blue-600 hover:scale-125 transition-all">
+            <li className="hover:text-[#0077B5] hover:scale-125 transition-all">
               <a href="https://www.linkedin.com/in/kukanenthiran-purusothman-9706892a6/?originalSubdomain=lk" target="_blank" rel="noopener noreferrer">
                 <FaLinkedinIn />
               </a>
             </li>
-            <li className="hover:text-pink-500 hover:scale-125 transition-all">
+            <li className="hover:text-[#E4405F] hover:scale-125 transition-all">
               <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />
               </a>
             </li>
-            <li className="hover:text-blue-500 hover:scale-125 transition-all">
+            <li className="hover:text-[#1877F3] hover:scale-125 transition-all">
               <a href="https://www.facebook.com/yourprofile" target="_blank" rel="noopener noreferrer">
                 <FaFacebookF />
               </a>
@@ -103,22 +103,22 @@ function Navbar() {
         {/* Social media icons */}
         <div className="hidden md:block bg-white/5 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
           <ul className="flex space-x-6 text-xl text-gray-300">
-            <li className="hover:text-[#00BFFF] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
+            <li className="hover:text-[#25D366] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
               </a>
             </li>
-            <li className="hover:text-blue-600 cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
+            <li className="hover:text-[#0077B5] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://www.linkedin.com/in/kukanenthiran-purusothman-9706892a6/?originalSubdomain=lk" target="_blank" rel="noopener noreferrer">
                 <FaLinkedinIn />
               </a>
             </li>
-            <li className="hover:text-pink-500 cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
+            <li className="hover:text-[#E4405F] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
                 <FaInstagram />
               </a>
             </li>
-            <li className="hover:text-blue-500 cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
+            <li className="hover:text-[#1877F3] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://www.facebook.com/yourprofile" target="_blank" rel="noopener noreferrer">
                 <FaFacebookF />
               </a>
