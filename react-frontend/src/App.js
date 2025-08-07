@@ -1,3 +1,4 @@
+import React from "react";
 import LoginPage from "./Login/login";
 import Navbar from "./components/nav_bar";
 import HomePage from "./pages/home_page";
@@ -8,6 +9,19 @@ import CommonBackground from "./components/CommonBackground";
 
 function App() {
   const path = window.location.pathname;
+  // Scroll-to-top button state and handler
+  const [showScroll, setShowScroll] = React.useState(false);
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowScroll(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (path === "/login") {
     return <LoginPage />;
@@ -21,8 +35,23 @@ function App() {
       {/* Navbar */}
       <Navbar />
 
+      {/* Scroll-to-top Button */}
+      {showScroll && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white rounded-full shadow-2xl p-3 flex items-center justify-center border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-110 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50"
+          style={{ boxShadow: '0 4px 32px 0 #00BFFF80, 0 1.5px 8px 0 #0077C880', background: 'rgba(0, 191, 255, 0.15)' }}
+          aria-label="Scroll to top"
+        >
+          {/* Up arrow SVG icon */}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#00BFFF" className="w-7 h-7 drop-shadow-lg transition-all duration-500">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
+
       {/* Single Page Content */}
-      <div className="pt-20">
+      <div className="pt-8">
         {/* Home Section */}
         <section id="home" className="min-h-screen">
           <HomePage />
