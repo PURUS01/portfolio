@@ -1,48 +1,48 @@
 // src/components/HomePage.jsx
-import { FaDownload} from "react-icons/fa";
+import { FaDownload } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 
 function HomePage() {
-    const [data, setData] = useState(null);
-    const [greeting, setGreeting] = useState("");
-    const [showHello, setShowHello] = useState(false);
-    const [showName, setShowName] = useState(false);
-    const [showTitle, setShowTitle] = useState(false);
-    const [showLocation, setShowLocation] = useState(false);
-    // 3D tilt state
-    const [tilt, setTilt] = useState({ x: 0, y: 0 });
-    const cardRef = useRef(null);
+  const [data, setData] = useState(null);
+  const [greeting, setGreeting] = useState("");
+  const [showHello, setShowHello] = useState(false);
+  const [showName, setShowName] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
+  const [showLocation, setShowLocation] = useState(false);
+  // 3D tilt state
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const cardRef = useRef(null);
 
-    // Typewriter effect for dynamic name
-    useEffect(() => {
-      if (!data || !data.name) return;
-      const fullGreeting = `I'm ${data.name}`;
-      let current = 0;
-      setGreeting("");
-      const interval = setInterval(() => {
-        current++;
-        setGreeting(fullGreeting.slice(0, current));
-        if (current === fullGreeting.length) {
-          clearInterval(interval);
-        }
-      }, 60);
-      return () => clearInterval(interval);
-    }, [data]);
+  // Typewriter effect for dynamic name
+  useEffect(() => {
+    if (!data || !data.name) return;
+    const fullGreeting = `I'm ${data.name}`;
+    let current = 0;
+    setGreeting("");
+    const interval = setInterval(() => {
+      current++;
+      setGreeting(fullGreeting.slice(0, current));
+      if (current === fullGreeting.length) {
+        clearInterval(interval);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [data]);
 
-    // Sequentially show each line
-    useEffect(() => {
-      setShowHello(false);
-      setShowName(false);
-      setShowTitle(false);
-      setShowLocation(false);
-      const timers = [];
-      timers.push(setTimeout(() => setShowHello(true), 200));
-      timers.push(setTimeout(() => setShowName(true), 900));
-      timers.push(setTimeout(() => setShowTitle(true), 1800));
-      timers.push(setTimeout(() => setShowLocation(true), 2500));
-      return () => timers.forEach(clearTimeout);
-    }, []);
+  // Sequentially show each line
+  useEffect(() => {
+    setShowHello(false);
+    setShowName(false);
+    setShowTitle(false);
+    setShowLocation(false);
+    const timers = [];
+    timers.push(setTimeout(() => setShowHello(true), 200));
+    timers.push(setTimeout(() => setShowName(true), 900));
+    timers.push(setTimeout(() => setShowTitle(true), 1800));
+    timers.push(setTimeout(() => setShowLocation(true), 2500));
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8000/api/profile")
@@ -51,7 +51,7 @@ function HomePage() {
       .catch((err) => console.error("API Error", err));
   }, []);
 
-if (!data) return (
+  if (!data) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-lime-400 mx-auto mb-4"></div>
@@ -59,7 +59,7 @@ if (!data) return (
       </div>
     </div>
   );
-  
+
   return (
     <div className="min-h-screen text-white font-sans relative overflow-hidden">
       <div className="relative z-10 animate-main-fadein">
@@ -68,16 +68,16 @@ if (!data) return (
           <div className="w-full max-w-7xl mx-auto px-6 lg:px-12">
             {/* Mobile and Tablet Layout - Image First */}
             <div className="flex flex-col lg:hidden items-center text-center space-y-8">
-              
+
               {/* Profile Image - Mobile/Tablet */}
               <div className="animate-fadeInUp">
                 <div className="relative">
                   {/* Decorative Elements */}
                   <div className="absolute -top-4 -right-4 w-16 h-16 border border-lime-400/30 rounded-full animate-pulse"></div>
-                  <div className="absolute -bottom-6 -left-6 w-20 h-20 border border-lime-400/20 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  
+                  <div className="absolute -bottom-6 -left-6 w-20 h-20 border border-lime-400/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+
                   {/* Main Image Container */}
-                  <div 
+                  <div
                     className="relative w-64 h-80 sm:w-80 sm:h-[420px] group"
                     ref={cardRef}
                     onMouseMove={e => {
@@ -90,9 +90,9 @@ if (!data) return (
                   >
                     {/* Background Shape */}
                     <div className="absolute inset-0 bg-gradient-to-br from-lime-400/20 to-green-500/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
-                    
+
                     {/* Image Container */}
-                    <div 
+                    <div
                       className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:scale-105"
                       style={{
                         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x || tilt.y ? 1.02 : 1})`
@@ -100,7 +100,7 @@ if (!data) return (
                     >
                       {/* Glow Effect */}
                       <div className="absolute inset-0 bg-gradient-to-t from-lime-400/10 via-transparent to-transparent"></div>
-                      
+
                       {/* Profile Image */}
                       <img
                         src="/images/purus.png"
@@ -110,36 +110,35 @@ if (!data) return (
                           filter: 'drop-shadow(0 25px 50px rgba(163, 230, 53, 0.2))'
                         }}
                       />
-                      
+
                       {/* Overlay Gradient */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
                   </div>
 
                   {/* Floating Elements for Visual Interest */}
-                  <div className="absolute top-16 -left-4 w-3 h-3 bg-lime-400/60 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
-                  <div className="absolute bottom-24 -right-3 w-4 h-4 bg-green-400/40 rounded-full animate-float" style={{animationDelay: '1.5s'}}></div>
-                  <div className="absolute top-1/3 -right-8 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{animationDelay: '2.5s'}}></div>
+                  <div className="absolute top-16 -left-4 w-3 h-3 bg-lime-400/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-24 -right-3 w-4 h-4 bg-green-400/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+                  <div className="absolute top-1/3 -right-8 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
                 </div>
               </div>
 
               {/* Text Content - Mobile/Tablet */}
-              <div className="space-y-6 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+              <div className="space-y-6 animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
                 {/* Main Heading */}
                 <div className="space-y-4">
                   <h1 className="leading-none tracking-tight">
-                    <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-3xl sm:text-4xl`}>Hello,</span>
-                    <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-lime-400 font-black text-4xl sm:text-5xl`}>I'm Purusothman</span>
-                    <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-2xl sm:text-3xl`}>Laravel Developer</span>
-                    <span className={`block ${showLocation ? 'fade-in-up' : 'opacity-0'} text-gray-300 font-medium text-xl sm:text-2xl`}>in Sri Lanka.</span>
+                    <span className="block text-gray-200 font-light text-3xl sm:text-4xl">Hello,</span>
+                    <span className="block text-lime-400 font-black text-4xl sm:text-5xl">I'm Purusothman</span>
+                    <span className="block text-white font-bold text-2xl sm:text-3xl">Laravel Developer</span>
                   </h1>
                 </div>
 
                 {/* Download CV Button */}
                 <div className="pt-6">
-                  <a 
-                    href="/cv.pdf" 
-                    download 
+                  <a
+                    href="/cv.pdf"
+                    download
                     className="inline-flex items-center gap-3 px-6 py-3 bg-lime-400 text-black font-bold text-base sm:text-lg rounded-lg hover:bg-lime-500 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-lime-400/40 border-2 border-lime-300 hover:border-lime-200"
                   >
                     <span>DOWNLOAD CV</span>
@@ -147,40 +146,39 @@ if (!data) return (
                   </a>
                 </div>
               </div>
-              
+
             </div>
 
             {/* Desktop Layout - Original Side-by-Side */}
             <div className="hidden lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              
+
               {/* Left Content - Takes up more space */}
               <div className="lg:col-span-7 space-y-8 animate-fadeInLeft relative">
                 {/* Decorative elements around text */}
                 <div className="absolute -top-8 -left-8 w-16 h-16 border border-lime-400/20 rounded-full animate-pulse"></div>
-                <div className="absolute -bottom-4 -right-4 w-12 h-12 border border-green-400/15 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                <div className="absolute top-1/2 -right-6 w-8 h-8 bg-lime-400/10 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-                
-                 {/* Main Heading */}
-                 <div className="space-y-6">
-                   <h1 className="leading-none tracking-tight">
-                     <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-4xl lg:text-5xl xl:text-6xl`}>Hello,</span>
-                     <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-lime-400 font-black text-5xl lg:text-6xl xl:text-7xl`}>I'm Purusothman</span>
-                     <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-3xl lg:text-4xl xl:text-5xl`}>Laravel Developer</span>
-                     <span className={`block ${showLocation ? 'fade-in-up' : 'opacity-0'} text-gray-300 font-medium text-2xl lg:text-3xl xl:text-4xl`}>in Sri Lanka.</span>
-                   </h1>
-                 </div>
+                <div className="absolute -bottom-4 -right-4 w-12 h-12 border border-green-400/15 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/2 -right-6 w-8 h-8 bg-lime-400/10 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+
+                {/* Main Heading */}
+                <div className="space-y-6">
+                  <h1 className="leading-none tracking-tight">
+                    <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-4xl lg:text-5xl xl:text-6xl`}>Hello,</span>
+                    <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-lime-400 font-black text-5xl lg:text-6xl xl:text-7xl`}>{greeting}</span>
+                    <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-3xl lg:text-4xl xl:text-5xl`}>Laravel Developer</span>
+                  </h1>
+                </div>
 
                 {/* Download CV Button */}
-                 <div className="pt-10">
-                   <a 
-                     href="/cv.pdf" 
-                     download 
-                     className="inline-flex items-center gap-4 px-8 py-4 bg-lime-400 text-black font-bold text-lg rounded-lg hover:bg-lime-500 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-lime-400/40 border-2 border-lime-300 hover:border-lime-200"
-                   >
-                     <span>DOWNLOAD CV</span>
-                     <FaDownload className="w-5 h-5" />
-                   </a>
-                 </div>
+                <div className="pt-10">
+                  <a
+                    href="/cv.pdf"
+                    download
+                    className="inline-flex items-center gap-4 px-8 py-4 bg-lime-400 text-black font-bold text-lg rounded-lg hover:bg-lime-500 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-lime-400/40 border-2 border-lime-300 hover:border-lime-200"
+                  >
+                    <span>DOWNLOAD CV</span>
+                    <FaDownload className="w-5 h-5" />
+                  </a>
+                </div>
               </div>
 
               {/* Right Content - Image */}
@@ -188,10 +186,10 @@ if (!data) return (
                 <div className="relative">
                   {/* Decorative Elements */}
                   <div className="absolute -top-8 -right-8 w-24 h-24 border border-lime-400/30 rounded-full animate-pulse"></div>
-                  <div className="absolute -bottom-12 -left-12 w-32 h-32 border border-lime-400/20 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  
+                  <div className="absolute -bottom-12 -left-12 w-32 h-32 border border-lime-400/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+
                   {/* Main Image Container */}
-                  <div 
+                  <div
                     className="relative w-80 h-[420px] lg:w-[380px] lg:h-[520px] group"
                     onMouseMove={e => {
                       const rect = e.currentTarget.getBoundingClientRect();
@@ -203,9 +201,9 @@ if (!data) return (
                   >
                     {/* Background Shape */}
                     <div className="absolute inset-0 bg-gradient-to-br from-lime-400/20 to-green-500/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500"></div>
-                    
+
                     {/* Image Container */}
-                    <div 
+                    <div
                       className="relative w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:scale-105"
                       style={{
                         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x || tilt.y ? 1.02 : 1})`
@@ -213,7 +211,7 @@ if (!data) return (
                     >
                       {/* Glow Effect */}
                       <div className="absolute inset-0 bg-gradient-to-t from-lime-400/10 via-transparent to-transparent"></div>
-                      
+
                       {/* Profile Image */}
                       <img
                         src="/images/purus.png"
@@ -223,16 +221,16 @@ if (!data) return (
                           filter: 'drop-shadow(0 25px 50px rgba(163, 230, 53, 0.2))'
                         }}
                       />
-                      
+
                       {/* Overlay Gradient */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
                   </div>
 
                   {/* Floating Elements for Visual Interest */}
-                  <div className="absolute top-20 -left-8 w-4 h-4 bg-lime-400/60 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
-                  <div className="absolute bottom-32 -right-6 w-6 h-6 bg-green-400/40 rounded-full animate-float" style={{animationDelay: '1.5s'}}></div>
-                  <div className="absolute top-1/3 -right-12 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{animationDelay: '2.5s'}}></div>
+                  <div className="absolute top-20 -left-8 w-4 h-4 bg-lime-400/60 rounded-full animate-float" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-32 -right-6 w-6 h-6 bg-green-400/40 rounded-full animate-float" style={{ animationDelay: '1.5s' }}></div>
+                  <div className="absolute top-1/3 -right-12 w-2 h-2 bg-lime-300/80 rounded-full animate-float" style={{ animationDelay: '2.5s' }}></div>
                 </div>
               </div>
             </div>
@@ -240,7 +238,7 @@ if (!data) return (
         </div>
 
         {/* Worked with section */}
-        <div className="relative z-10 max-w-5xl mx-auto mt-8 mb-20 px-6 animate-fadeInUp" style={{animationDelay: '1.5s'}}>
+        <div className="relative z-10 max-w-5xl mx-auto mt-8 mb-20 px-6 animate-fadeInUp" style={{ animationDelay: '1.5s' }}>
           <p className="text-sm text-gray-400 uppercase tracking-widest mb-8 text-center">Worked with</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center text-gray-300">
             <div className="bg-white/5 backdrop-blur-md border border-white/10 py-4 px-6 rounded-xl hover:bg-white/10 hover:border-lime-400/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-lime-400/20">
