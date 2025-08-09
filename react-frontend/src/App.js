@@ -1,5 +1,6 @@
 import React from "react";
 import LoginPage from "./Login/login";
+import DashboardPage from "./pages/dashboard_page";
 import Navbar from "./components/nav_bar";
 import HomePage from "./pages/home_page";
 import AboutPage from "./pages/about_page";
@@ -25,6 +26,9 @@ function App() {
 
   if (path === "/login") {
     return <LoginPage />;
+  }
+  if (path === "/dashboard") {
+    return <DashboardPage />;
   }
 
   return (

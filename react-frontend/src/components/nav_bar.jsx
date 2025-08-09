@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { FaWhatsapp, FaLinkedinIn, FaInstagram, FaFacebookF, FaBars, FaTimes } from "react-icons/fa";
 
 function Navbar() {
+  // Simulate login state
+  const isLoggedIn = true;
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -102,7 +104,20 @@ function Navbar() {
 
         {/* Social media icons */}
         <div className="hidden md:block bg-white/5 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
-          <ul className="flex space-x-6 text-xl text-gray-300">
+          <ul className="flex items-center space-x-6 text-xl text-gray-300">
+            {/* Dashboard Link (only if logged in) */}
+            {isLoggedIn && (
+              <li>
+                <a
+                  href="/dashboard"
+                  className="px-2 py-1 rounded-lg border border-[#00BFFF]/40 text-[#00BFFF] font-medium text-base bg-transparent hover:bg-[#00BFFF]/10 hover:shadow-[0_0_8px_1px_#00BFFF99] transition-all duration-300"
+                  style={{ marginRight: '8px', minWidth: '90px', textAlign: 'center' }}
+                >
+                  Dashboard
+                </a>
+              </li>
+            )}
+            {/* Social Media Icons */}
             <li className="hover:text-[#25D366] cursor-pointer transition-all duration-300 hover:scale-125 hover:rotate-12">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
