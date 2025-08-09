@@ -1,8 +1,30 @@
 import React from "react";
 import CreatableSelect from 'react-select/creatable';
 import ProfileImageUpload from './ProfileImageUpload';
+import { useState } from "react";
 
 export default function AboutSection() {
+    const [experiences, setExperiences] = useState([
+        { period: "", title: "", company: "", description: "" },
+    ]);
+
+    const handleExperienceChange = (index, field, value) => {
+        const updated = [...experiences];
+        updated[index][field] = value;
+        setExperiences(updated);
+    };
+
+    const addExperience = () => {
+        setExperiences([
+            ...experiences,
+            { period: "", title: "", company: "", description: "" },
+        ]);
+    };
+
+    const removeExperience = (index) => {
+        const updated = experiences.filter((_, i) => i !== index);
+        setExperiences(updated);
+    };
     return (
         <>
             <h3 className="text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">About</h3>
@@ -131,34 +153,104 @@ export default function AboutSection() {
                 </div>
                 {/* Professional Experience */}
                 <div className="w-full flex flex-col gap-6">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Professional Experience</label>
-                    {/* Experience 1 */}
-                    <div className="flex flex-col md:flex-row gap-6">
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="2022 - Present" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="Frontend Developer" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="Bohar Solutions" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                    </div>
-                    <textarea placeholder="Describe your responsibilities..." rows={2} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
-                    {/* Experience 2 */}
-                    <div className="flex flex-col md:flex-row gap-6 mt-4">
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="2020 - 2022" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="Backend Developer" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                        <div className="flex-1 flex flex-col gap-2">
-                            <input type="text" placeholder="Company B" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                        </div>
-                    </div>
-                    <textarea placeholder="Describe your responsibilities..." rows={5} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
-                </div>
+    <label className="text-[#00BFFF] font-semibold mb-1">Professional Experience</label>
+
+    {experiences.map((exp, index) => (
+        <div
+            key={index}
+            className="p-4 rounded-xl bg-white/5 border border-[#00BFFF44] flex flex-col gap-4"
+        >
+            {/* Top row */}
+            <div className="flex flex-wrap gap-4">
+                <input
+                    type="text"
+                    placeholder="2022 - Present"
+                    value={exp.period}
+                    onChange={(e) =>
+                        handleExperienceChange(index, "period", e.target.value)
+                    }
+                    className="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
+                        border-2 border-transparent 
+                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                        transition-all duration-300 ease-in-out"
+                />
+                <input
+                    type="text"
+                    placeholder="Frontend Developer"
+                    value={exp.title}
+                    onChange={(e) =>
+                        handleExperienceChange(index, "title", e.target.value)
+                    }
+                    className="flex-1 min-w-[160px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
+                        border-2 border-transparent 
+                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                        transition-all duration-300 ease-in-out"
+                />
+                <input
+                    type="text"
+                    placeholder="Company Name"
+                    value={exp.company}
+                    onChange={(e) =>
+                        handleExperienceChange(index, "company", e.target.value)
+                    }
+                    className="flex-1 min-w-[160px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
+                        border-2 border-transparent 
+                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                        transition-all duration-300 ease-in-out"
+                />
+            </div>
+
+            {/* Description */}
+            <textarea
+                placeholder="Describe your responsibilities..."
+                value={exp.description}
+                onChange={(e) =>
+                    handleExperienceChange(index, "description", e.target.value)
+                }
+                className="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
+                    border-2 border-transparent 
+                    focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                    hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                    transition-all duration-300 ease-in-out resize-none"
+            />
+
+            {/* Remove Button */}
+            {experiences.length > 1 && (
+                <button
+                    type="button"
+                    onClick={() => removeExperience(index)}
+                    className="self-end px-2 py-1 bg-red-500/70 hover:bg-red-600 text-white rounded-lg text-xs
+                        hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-all duration-300"
+                >
+                    ✕
+                </button>
+            )}
+        </div>
+    ))}
+
+    {/* Add Experience */}
+    <button
+        type="button"
+        onClick={addExperience}
+        className="
+            mt-3 px-3 py-1.5 rounded-md 
+            bg-white bg-opacity-20 
+            border border-white border-opacity-30 
+            backdrop-blur-md
+            text-white font-medium shadow-lg 
+            transition-all duration-300 
+            hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-white/40
+            focus:shadow-[0_0_20px_rgba(255,255,255,0.6)] focus:shadow-white/60
+            w-40 text-xs flex items-center justify-center gap-1.5
+        "
+    >
+        <span className="text-base font-bold">+</span> Add Experience
+    </button>
+</div>
+
                 <button type="submit" className="mt-8 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 sticky bottom-0 z-50 w-48 text-sm">Update Details</button>
             </form>
         </>
