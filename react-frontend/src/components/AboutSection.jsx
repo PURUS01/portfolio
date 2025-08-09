@@ -1,10 +1,12 @@
 import React from "react";
 import CreatableSelect from 'react-select/creatable';
+import ProfileImageUpload from './ProfileImageUpload';
 
 export default function AboutSection() {
     return (
         <>
             <h3 className="text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">About</h3>
+            <ProfileImageUpload />
             <form className="w-full max-w-3xl flex flex-col gap-10 items-center">
                 {/* Personal Info */}
                 <div className="w-full flex flex-col md:flex-row gap-6">
@@ -36,19 +38,12 @@ export default function AboutSection() {
                     <input type="email" placeholder="Your email address" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
                 </div>
                 <div className="w-full flex flex-col gap-2">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Profile Image</label>
-                    <div className="relative w-full">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            className="w-full px-4 py-2 rounded-xl bg-white/10 text-white file:text-white file:bg-[#0077C8]/60 file:border-none file:rounded-lg file:px-4 file:py-2 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] file:cursor-pointer file:font-semibold"
-                        />
-                    </div>
+                    {/* Profile Image upload section removed as requested */}
                 </div>
                 {/* About Me */}
                 <div className="w-full flex flex-col gap-2">
-                    <label className="text-[#00BFFF] font-semibold mb-1">About Me</label>
-                    <textarea placeholder="Write about yourself..." rows={4} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
+                    <label className="text-[#00BFFF] font-semibold mb-1">Bio</label>
+                    <textarea placeholder="Write about yourself..." rows={10} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
                 </div>
                 {/* Education */}
                 <div className="w-full flex flex-col md:flex-row gap-6">
@@ -162,7 +157,7 @@ export default function AboutSection() {
                             <input type="text" placeholder="Company B" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
                         </div>
                     </div>
-                    <textarea placeholder="Describe your responsibilities..." rows={2} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
+                    <textarea placeholder="Describe your responsibilities..." rows={5} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
                 </div>
                 <button type="submit" className="mt-8 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 sticky bottom-0 z-50 w-48 text-sm">Update Details</button>
             </form>

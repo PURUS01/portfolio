@@ -127,7 +127,7 @@ export default function ProjectsSection() {
                 </div>
                 <div className="w-full flex flex-col gap-2">
                     <label className="text-[#00BFFF] font-semibold mb-1">Project Description</label>
-                    <textarea name="description" value={form.description} onChange={handleChange} placeholder="Project Description" rows={4} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" required />
+                    <textarea name="description" value={form.description} onChange={handleChange} placeholder="Project Description" rows={10} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" required />
                 </div>
                 <div className="w-full flex flex-col md:flex-row gap-6">
                     <div className="flex-1 flex flex-col gap-2">
