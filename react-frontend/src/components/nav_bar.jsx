@@ -1,12 +1,20 @@
-// Navbar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaWhatsapp, FaLinkedinIn, FaInstagram, FaFacebookF, FaBars, FaTimes } from "react-icons/fa";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase"; // adjust path if needed
 
 function Navbar() {
-  // Simulate login state
-  const isLoggedIn = true;
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // dynamic login state
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  // Track Firebase auth state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user); // true if user is logged in
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Smooth scroll function
   const scrollToSection = (sectionId) => {
@@ -22,7 +30,7 @@ function Navbar() {
   };
 
   // Handle scroll to update active section
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'projects', 'getintouch'];
       const scrollPosition = window.scrollY + 100;

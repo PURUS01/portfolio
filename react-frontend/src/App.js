@@ -7,6 +7,7 @@ import AboutPage from "./pages/about_page";
 import ProjectsPage from "./pages/projects_page";
 import GetInTouchPage from "./pages/get_in_touch_page";
 import CommonBackground from "./components/CommonBackground";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const path = window.location.pathname;
@@ -24,10 +25,24 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (path === "/login") {
+  const auth = getAuth();
+
+  const [user, setUser] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  // Listen to Firebase Auth state
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, [auth]);
+
+  if (path === "/login" || path === "/dashboard" && !user) {
     return <LoginPage />;
   }
-  if (path === "/dashboard") {
+  if (path === "/dashboard" && user) {
     return <DashboardPage />;
   }
 

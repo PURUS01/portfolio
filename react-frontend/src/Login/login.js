@@ -1,20 +1,28 @@
 import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase"; // adjust path if needed
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setIsLoading(true);
-    console.log("Login attempted:", { email, password });
-    // You can call your Laravel API here
-
-    // Simulate API call
-    setTimeout(() => {
+    setError("");
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login successful:", userCredential.user);
+      // Redirect or show dashboard after login
+      window.location.href = "/dashboard"; // or use router push
+    } catch (err) {
+      console.error(err);
+      setError(err.message); // Show error message
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -43,6 +51,9 @@ function LoginPage() {
               Sign in to access your portfolio dashboard
             </p>
           </div>
+
+          {/* Error Message */}
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
           {/* Form */}
           <div className="space-y-6">
