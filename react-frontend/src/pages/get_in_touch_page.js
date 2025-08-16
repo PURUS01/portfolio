@@ -1,6 +1,111 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
+import { firestore } from '../firebase'; // Import from src/firebase.js
 
 function GetInTouchPage() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Name validation
+    if (!form.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (form.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    } else if (form.name.trim().length > 50) {
+      newErrors.name = 'Name must be less than 50 characters';
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(form.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Message validation
+    if (!form.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (form.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    } else if (form.message.trim().length > 1000) {
+      newErrors.message = 'Message must be less than 1000 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate form before submitting
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Add message to the messages document as an array item
+      const messagesRef = doc(firestore, 'portfolion', 'messages');
+
+      const messageData = {
+        id: Date.now(), // Simple ID based on timestamp
+        name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim(),
+        reply: '', // Empty reply column for dashboard
+        createdAt: new Date(),
+        status: 'unread'
+      };
+
+      // Check if document exists, if not create it
+      const docSnap = await getDoc(messagesRef);
+      if (docSnap.exists()) {
+        // Document exists, add to messages array
+        await updateDoc(messagesRef, {
+          messages: arrayUnion(messageData)
+        });
+      } else {
+        // Document doesn't exist, create it with first message
+        await setDoc(messagesRef, {
+          messages: [messageData]
+        });
+      }
+
+      setSubmitted(true);
+      setForm({ name: '', email: '', message: '' });
+      setErrors({});
+
+      // Reset submitted state after 4 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 4000);
+
+    } catch (error) {
+      console.error('Error adding message: ', error);
+      alert('Error sending message. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen text-white font-sans px-4 md:px-0 py-8 flex justify-center relative overflow-hidden">
       <div className="w-full max-w-6xl relative z-10 animate-main-fadein">
@@ -26,36 +131,95 @@ function GetInTouchPage() {
                 </p>
               </div>
 
+              {/* Success Message */}
+              {submitted && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-400/30 rounded-2xl text-center animate-fadeInUp">
+                  <div className="text-green-400 text-lg font-semibold mb-1">✓ Message Sent Successfully!</div>
+                  <p className="text-green-300/80 text-sm">Thank you for reaching out. I'll get back to you soon.</p>
+                </div>
+              )}
+
               {/* Form */}
-              <form className="space-y-6">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-                  required
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-                  required
-                />
-                <textarea
-                  placeholder="Your Message"
-                  rows={6}
-                  className="w-full px-6 py-4 rounded-2xl bg-white/5 text-white border border-white/10 outline-none focus:border-[#0077C8] focus:bg-white/10 transition-all duration-300 placeholder-gray-500"
-                  required
-                ></textarea>
+              <div className="space-y-6">
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Your Name"
+                    className={`w-full px-6 py-4 rounded-2xl bg-white/5 text-white border outline-none focus:bg-white/10 transition-all duration-300 placeholder-gray-500 ${errors.name
+                      ? 'border-red-400 focus:border-red-400'
+                      : 'border-white/10 focus:border-[#0077C8]'
+                      }`}
+                    required
+                  />
+                  {errors.name && (
+                    <p className="text-red-400 text-sm mt-2 ml-2">{errors.name}</p>
+                  )}
+                </div>
+
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Your Email"
+                    className={`w-full px-6 py-4 rounded-2xl bg-white/5 text-white border outline-none focus:bg-white/10 transition-all duration-300 placeholder-gray-500 ${errors.email
+                      ? 'border-red-400 focus:border-red-400'
+                      : 'border-white/10 focus:border-[#0077C8]'
+                      }`}
+                    required
+                  />
+                  {errors.email && (
+                    <p className="text-red-400 text-sm mt-2 ml-2">{errors.email}</p>
+                  )}
+                </div>
+
+                <div>
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="Your Message"
+                    rows={6}
+                    className={`w-full px-6 py-4 rounded-2xl bg-white/5 text-white border outline-none focus:bg-white/10 transition-all duration-300 placeholder-gray-500 ${errors.message
+                      ? 'border-red-400 focus:border-red-400'
+                      : 'border-white/10 focus:border-[#0077C8]'
+                      }`}
+                    required
+                  ></textarea>
+                  {errors.message && (
+                    <p className="text-red-400 text-sm mt-2 ml-2">{errors.message}</p>
+                  )}
+                  <p className="text-gray-500 text-xs mt-1 ml-2">
+                    {form.message.length}/1000 characters
+                  </p>
+                </div>
                 <button
                   type="submit"
-                  className="w-full mt-4 bg-gradient-to-r from-[#0077C8] to-[#00BFFF] text-white font-bold py-4 rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 group"
+                  onClick={handleSubmit}
+                  disabled={loading || submitted}
+                  className="w-full mt-4 bg-gradient-to-r from-[#0077C8] to-[#00BFFF] text-white font-bold py-4 rounded-2xl shadow-xl hover:scale-105 transition-all duration-300 group disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  <span className="flex items-center justify-center gap-2">
-                    Send Message
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-                  </span>
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Sending...
+                    </span>
+                  ) : submitted ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span>✓ Sent Successfully</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      Send Message
+                      <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                    </span>
+                  )}
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>

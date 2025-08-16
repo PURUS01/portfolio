@@ -1,14 +1,82 @@
 import React from "react";
 import CreatableSelect from 'react-select/creatable';
 import ProfileImageUpload from './ProfileImageUpload';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { firestore } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-hot-toast";
 
 export default function AboutSection() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDataLoading, setIsDataLoading] = useState(true);
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [title, setTitle] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [email, setEmail] = useState('');
+    const [bio, setBio] = useState('');
+    const [skills, setSkills] = useState([]);
+    const [experiences, setExperiences] = useState([
+        { period: "", title: "", company: "", description: "" },
+    ]);
+    const [educationList, setEducationList] = useState([
+        { degree: "", university: "", year: "" }
+    ]);
+
+    // Fetch existing data on component mount
+    useEffect(() => {
+        const fetchExistingData = async () => {
+            try {
+                setIsDataLoading(true);
+                const docRef = doc(firestore, "portfolion", "about");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+
+                    // Set all the state values with existing data
+                    setFirstName(data.firstName || '');
+                    setLastName(data.lastName || '');
+                    setTitle(data.title || '');
+                    setCity(data.city || '');
+                    setCountry(data.country || '');
+                    setEmail(data.email || '');
+                    setBio(data.bio || '');
+
+                    // Handle skills array - convert strings to objects for CreatableSelect
+                    if (data.skills && Array.isArray(data.skills)) {
+                        const skillsFormatted = data.skills.map(skill => ({
+                            value: skill,
+                            label: skill
+                        }));
+                        setSkills(skillsFormatted);
+                    }
+
+                    // Handle experiences array
+                    if (data.experiences && Array.isArray(data.experiences) && data.experiences.length > 0) {
+                        setExperiences(data.experiences);
+                    }
+
+                    // Handle education array
+                    if (data.educationList && Array.isArray(data.educationList) && data.educationList.length > 0) {
+                        setEducationList(data.educationList);
+                    }
+                } else {
+                    console.log("No existing data found");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                toast.error("Failed to load existing data");
+            } finally {
+                setIsDataLoading(false);
+            }
+        };
+
+        fetchExistingData();
+    }, []);
 
     const handleExperienceChange = (index, field, value) => {
         const updated = [...experiences];
@@ -28,8 +96,6 @@ export default function AboutSection() {
         setExperiences(updated);
     };
 
-
-
     const handleEducationChange = (index, field, value) => {
         const newEducationList = [...educationList];
         newEducationList[index][field] = value;
@@ -40,36 +106,18 @@ export default function AboutSection() {
         setEducationList([...educationList, { degree: '', university: '', year: '' }]);
     };
 
-
     const removeEducation = (index) => {
         const newEducationList = educationList.filter((_, i) => i !== index);
         setEducationList(newEducationList);
     };
-
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [title, setTitle] = useState('');
-    const [city, setCity] = useState('');
-    const [country, setCountry] = useState('');
-    const [email, setEmail] = useState('');
-    const [bio, setBio] = useState('');
-    const [skills, setSkills] = useState([]);
-    const [experiences, setExperiences] = useState([
-        { period: "", title: "", company: "", description: "" },
-    ]);
-    const [educationList, setEducationList] = useState([
-        { degree: "", university: "", year: "" }
-    ]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setIsLoading(true);
 
-        // Your async function that returns a promise
-        const saveSettings = () => {
+        // Your async function that returns a promise for updating
+        const updateSettings = () => {
             const data = {
                 firstName,
                 lastName,
@@ -81,24 +129,35 @@ export default function AboutSection() {
                 educationList,
                 skills: skills.map(skill => skill.value),
                 experiences,
-                createdAt: new Date(),
+                updatedAt: new Date(),
             };
 
-            // Return the promise from Firestore addDoc
-            return addDoc(collection(firestore, "users"), data);
+            // Return the promise from Firestore updateDoc
+            const docRef = doc(firestore, "portfolion", "about");
+            return updateDoc(docRef, data);
         };
 
         toast.promise(
-            saveSettings(),
+            updateSettings(),
             {
-                loading: 'Saving...',
-                success: <b>Details saved successfully!</b>,
-                error: <b>Failed to save details.</b>,
+                loading: 'Updating...',
+                success: <b>Details updated successfully!</b>,
+                error: <b>Failed to update details.</b>,
             }
         ).finally(() => {
             setIsLoading(false);
         });
     };
+
+    // Show loading spinner while fetching data
+    if (isDataLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <ClipLoader color="#00BFFF" loading={true} size={50} />
+                <span className="ml-4 text-[#00BFFF]">Loading your details...</span>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -387,16 +446,8 @@ export default function AboutSection() {
                     </button>
                 </div>
 
-                <button type="submit" disabled={isLoading} className="mt-8 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 sticky bottom-0 z-50 w-48 text-sm">{isLoading ? "Loading..." : "Update Details"}</button>
+                <button type="submit" disabled={isLoading} className="mt-8 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 sticky bottom-0 z-50 w-48 text-sm">{isLoading ? "Updating..." : "Update Details"}</button>
             </form>
-
-
-            {/* Optional: a loading spinner
-            {isLoading && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <ClipLoader color="#00BFFF" loading={true} size={50} />
-                </div>
-            )} */}
         </>
     );
 }
