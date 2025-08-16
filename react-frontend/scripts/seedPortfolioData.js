@@ -15,6 +15,7 @@ async function run() {
     const aboutSnap = await aboutRef.get();
     if (!aboutSnap.exists) {  // ✅ changed from exists()
         await aboutRef.set({
+            profileImage: "",
             bio: "I’m a Laravel developer with experience in building scalable web applications, REST APIs, and modern frontend integrations. Passionate about clean code, problem-solving, and creating efficient business solutions.",
             city: "Jaffna",
             country: "Sri Lanka",

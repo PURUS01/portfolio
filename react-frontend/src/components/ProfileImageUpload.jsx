@@ -9,14 +9,14 @@ export default function ProfileImageUpload() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const fetchImage = async () => {
-            const docRef = doc(firestore, "portfolion", "images");
+        const fetchProfileImage = async () => {
+            const docRef = doc(firestore, "portfolion", "about");
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 setPreview(docSnap.data().profileImage || null);
             }
         };
-        fetchImage();
+        fetchProfileImage();
     }, []);
 
     const handleFileChange = (e) => {
@@ -42,12 +42,14 @@ export default function ProfileImageUpload() {
             reader.onerror = (error) => reject(error);
         });
 
-    const updateSettings = async () => {
+    const updateProfileImage = async () => {
         if (!file) throw new Error("No file selected");
         const base64 = await convertToBase64(file);
+
+        // Update only profileImage field in the about document
         await setDoc(
-            doc(firestore, "portfolion", "images"),
-            { profileImage: base64 },
+            doc(firestore, "portfolion", "about"),
+            { profileImage: base64, updatedAt: new Date() },
             { merge: true }
         );
         setFile(null);
@@ -55,7 +57,7 @@ export default function ProfileImageUpload() {
 
     const handleSave = () => {
         setIsLoading(true);
-        toast.promise(updateSettings(), {
+        toast.promise(updateProfileImage(), {
             loading: "Uploading profile image...",
             success: <b>Profile image updated successfully!</b>,
             error: <b>Failed to update profile image.</b>,
