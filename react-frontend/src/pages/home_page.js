@@ -2,8 +2,37 @@
 import { FaDownload } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { firestore } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function HomePage() {
+
+  // Fetch data from Firebase
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const docRef = doc(firestore, "portfolion", "about");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+
+          const fetchedData = docSnap.data();
+          const fixedData = {
+            name: `${fetchedData.firstName} ${fetchedData.lastName}`,
+            title: `${fetchedData.title}`,
+            profileImage: `${fetchedData.profileImage}`,
+          };
+          setData(fixedData);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [data, setData] = useState(null);
   const [greeting, setGreeting] = useState("");
   const [showHello, setShowHello] = useState(false);
@@ -44,14 +73,6 @@ function HomePage() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  useEffect(() => {
-    // Instead of fetching from an API, set fixed data
-    const fixedData = {
-      name: "Kukanenthiran Purusothman",
-      title: "Laravel Developer",
-    };
-    setData(fixedData);
-  }, []);
 
   if (!data) return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center">
@@ -130,9 +151,9 @@ function HomePage() {
                 {/* Main Heading */}
                 <div className="space-y-4">
                   <h1 className="leading-none tracking-tight">
-                    <span className="block text-gray-200 font-light text-3xl sm:text-4xl">Hello,</span>
-                    <span className="block text-[#0077C8] font-black text-4xl sm:text-5xl">I'm Purusothman</span>
-                    <span className="block text-white font-bold text-2xl sm:text-3xl">Laravel Developer</span>
+                    <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-3xl sm:text-4xl`}>Hello,</span>
+                    <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-[#0077C8] font-black text-4xl sm:text-5xl`}>{greeting}</span>
+                    <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-2xl sm:text-3xl`}>{data.title}</span>
                   </h1>
                 </div>
 
@@ -166,7 +187,7 @@ function HomePage() {
                   <h1 className="leading-none tracking-tight">
                     <span className={`block ${showHello ? 'fade-in-up' : 'opacity-0'} text-gray-200 font-light text-4xl lg:text-5xl xl:text-6xl`}>Hello,</span>
                     <span className={`block ${showName ? 'fade-in-up' : 'opacity-0'} text-[#0077C8] font-black text-5xl lg:text-6xl xl:text-7xl`}>{greeting}</span>
-                    <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-3xl lg:text-4xl xl:text-5xl`}>Laravel Developer</span>
+                    <span className={`block ${showTitle ? 'fade-in-up' : 'opacity-0'} text-white font-bold text-3xl lg:text-4xl xl:text-5xl`}>{data.title}</span>
                   </h1>
                 </div>
 
@@ -216,7 +237,7 @@ function HomePage() {
 
                       {/* Profile Image */}
                       <img
-                        src="/images/purus.png"
+                        src={data.profileImage}
                         alt="Kukanenthiran Purusothman"
                         className="w-full h-full object-cover transition-all duration-700 hover:brightness-110 filter"
                         style={{
