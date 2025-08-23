@@ -38,7 +38,6 @@ function HomePage() {
   const [showHello, setShowHello] = useState(false);
   const [showName, setShowName] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
-  const [showLocation, setShowLocation] = useState(false);
   // 3D tilt state
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
@@ -64,12 +63,10 @@ function HomePage() {
     setShowHello(false);
     setShowName(false);
     setShowTitle(false);
-    setShowLocation(false);
     const timers = [];
     timers.push(setTimeout(() => setShowHello(true), 200));
     timers.push(setTimeout(() => setShowName(true), 900));
     timers.push(setTimeout(() => setShowTitle(true), 1800));
-    timers.push(setTimeout(() => setShowLocation(true), 2500));
     return () => timers.forEach(clearTimeout);
   }, []);
 
@@ -238,7 +235,7 @@ function HomePage() {
                       {/* Profile Image */}
                       <img
                         src={data.profileImage}
-                        alt="Kukanenthiran Purusothman"
+                        alt={data.name}
                         className="w-full h-full object-cover transition-all duration-700 hover:brightness-110 filter"
                         style={{
                           filter: 'drop-shadow(0 25px 50px #0077C833)'

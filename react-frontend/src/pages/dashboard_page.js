@@ -59,7 +59,17 @@ export default function DashboardPage() {
             <Toaster position="top-center" reverseOrder={false} />
             <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-sans relative flex flex-col md:flex-row">
                 {/* Sidebar */}
-                <div className={`min-h-[56px] md:min-h-screen flex flex-col py-2 md:py-8 px-1 md:px-2 border-b md:border-b-0 md:border-r border-white/10 transition-all duration-500 ${sidebarOpen ? 'w-full md:w-64' : 'w-14'} bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-x-auto md:overflow-y-auto`}>
+                <div
+                    className={`min-h-[56px] md:min-h-screen flex flex-col py-2 md:py-8 px-1 md:px-2 border-b md:border-b-0 md:border-r border-white/10 transition-all duration-500 bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-x-auto md:overflow-y-auto flex-shrink-0 ${sidebarOpen
+                            ? 'w-full md:w-64 md:min-w-[16rem] md:max-w-[16rem]'
+                            : 'w-14 md:min-w-[3.5rem] md:max-w-[3.5rem]'
+                        }`}
+                    style={{
+                        width: sidebarOpen ? (window.innerWidth >= 768 ? '16rem' : '100%') : (window.innerWidth >= 768 ? '3.5rem' : '3.5rem'),
+                        minWidth: sidebarOpen ? (window.innerWidth >= 768 ? '16rem' : '100%') : (window.innerWidth >= 768 ? '3.5rem' : '3.5rem'),
+                        maxWidth: sidebarOpen ? (window.innerWidth >= 768 ? '16rem' : '100%') : (window.innerWidth >= 768 ? '3.5rem' : '3.5rem'),
+                    }}
+                >
 
                     {/* Sidebar Toggle Button */}
                     <button
@@ -132,7 +142,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="flex-1 flex items-center justify-center px-1 sm:px-4 md:px-12 py-2 md:py-10">
+                <div className="flex-1 flex items-center justify-center px-1 sm:px-4 md:px-12 py-2 md:py-10 min-w-0">
                     <div className="w-full sm:w-[95%] md:w-[90%] h-full max-h-[80vh] bg-[#0a192f]/80 rounded-2xl shadow-[0_0_32px_4px_#00BFFF55] backdrop-blur-xl border border-[#00BFFF]/20 p-2 sm:p-8 md:p-16 flex flex-col items-center animate-fade-in overflow-y-auto">
                         {activeTab === 'about' && <AboutSection />}
                         {activeTab === 'projects' && <ProjectsSection />}
