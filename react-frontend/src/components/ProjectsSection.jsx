@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CreatableSelect from 'react-select/creatable';
+import CreatableSelect from "react-select/creatable";
 import { firestore } from "../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -9,13 +9,15 @@ export default function ProjectsSection() {
     const [isLoading, setIsLoading] = useState(false);
     const [isDataLoading, setIsDataLoading] = useState(true);
 
-    const [projects, setProjects] = useState([{
-        projectName: "",
-        projectDescription: "",
-        tags: [],
-        githubUrl: "",
-        logoFilename: ""
-    }]);
+    const [projects, setProjects] = useState([
+        {
+            projectName: "",
+            projectDescription: "",
+            tags: [],
+            githubUrl: "",
+            logoFilename: "",
+        },
+    ]);
 
     // Fetch existing data on component mount
     useEffect(() => {
@@ -27,15 +29,15 @@ export default function ProjectsSection() {
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-
-                    if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
+                    if (
+                        data.projects &&
+                        Array.isArray(data.projects) &&
+                        data.projects.length > 0
+                    ) {
                         setProjects(data.projects);
                     }
-                } else {
-                    console.log("No existing projects data found");
                 }
             } catch (error) {
-                console.error("Error fetching projects data:", error);
                 toast.error("Failed to load existing projects");
             } finally {
                 setIsDataLoading(false);
@@ -47,7 +49,7 @@ export default function ProjectsSection() {
 
     const handleChange = (index, e) => {
         const { name, value } = e.target;
-        setProjects(prev => {
+        setProjects((prev) => {
             const updated = [...prev];
             updated[index][name] = value;
             return updated;
@@ -55,35 +57,59 @@ export default function ProjectsSection() {
     };
 
     const handleTagsChange = (index, selected) => {
-        setProjects(prev => {
+        setProjects((prev) => {
             const updated = [...prev];
-            updated[index].tags = selected ? selected.map(option => option.value) : [];
+            updated[index].tags = selected
+                ? selected.map((option) => option.value)
+                : [];
             return updated;
         });
     };
 
-    const handleFileChange = (index, e) => {
+    const handleFileChange = async (index, e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const base64String = reader.result; // data:image/...;base64,...
-            setProjects(prev => {
-                const updated = [...prev];
-                updated[index].logoFilename = base64String;
-                return updated;
-            });
-        };
-        reader.readAsDataURL(file);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "portfolio-projects_images"); // 🔹 replace with your Cloudinary preset
+
+        try {
+            const res = await fetch(
+                "https://api.cloudinary.com/v1_1/dszhosak1/upload", // 🔹 replace with your Cloudinary cloud name
+                { method: "POST", body: formData }
+            );
+            const data = await res.json();
+
+            if (data.secure_url) {
+                setProjects((prev) => {
+                    const updated = [...prev];
+                    updated[index].logoFilename = data.secure_url; // ✅ store Cloudinary URL
+                    return updated;
+                });
+            } else {
+                toast.error("Image upload failed");
+            }
+        } catch (err) {
+            toast.error("Failed to upload image");
+        }
     };
 
     const addProject = () => {
-        setProjects(prev => [...prev, { projectName: "", projectDescription: "", tags: [], githubUrl: "", logoFilename: "" }]);
+        setProjects((prev) => [
+            ...prev,
+            {
+                projectName: "",
+                projectDescription: "",
+                tags: [],
+                githubUrl: "",
+                logoFilename: "",
+            },
+        ]);
     };
 
     const removeProject = (index) => {
-        setProjects(prev => prev.filter((_, i) => i !== index));
+        setProjects((prev) => prev.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -99,32 +125,43 @@ export default function ProjectsSection() {
             return updateDoc(docRef, data);
         };
 
-        toast.promise(
-            updateProjects(),
-            {
-                loading: 'Updating projects...',
+        toast
+            .promise(updateProjects(), {
+                loading: "Updating projects...",
                 success: <b>Projects updated successfully!</b>,
                 error: <b>Failed to update projects.</b>,
-            }
-        ).finally(() => setIsLoading(false));
+            })
+            .finally(() => setIsLoading(false));
     };
 
     if (isDataLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <ClipLoader color="#00BFFF" loading={true} size={50} />
-                <span className="ml-4 text-[#00BFFF]">Loading your projects...</span>
+                <span className="ml-4 text-[#00BFFF]">
+                    Loading your projects...
+                </span>
             </div>
         );
     }
 
     return (
         <>
-            <h3 className="text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">Projects</h3>
-            <form className="w-full max-w-3xl flex flex-col gap-10 items-center" onSubmit={handleSubmit}>
+            <h3 className="text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">
+                Projects
+            </h3>
+            <form
+                className="w-full max-w-3xl flex flex-col gap-10 items-center"
+                onSubmit={handleSubmit}
+            >
                 {projects.map((form, index) => (
-                    <div key={index} className={`w-full flex flex-col gap-10 items-center relative p-6 rounded-2xl shadow-lg transition-all
-                        ${index === 0 ? "" : "bg-[#0a1a2f]/40 border border-[#00BFFF]/40"}`}
+                    <div
+                        key={index}
+                        className={`w-full flex flex-col gap-10 items-center relative p-6 rounded-2xl shadow-lg transition-all
+                        ${index === 0
+                                ? ""
+                                : "bg-[#0a1a2f]/40 border border-[#00BFFF]/40"
+                            }`}
                     >
                         {index > 0 && (
                             <h4 className="absolute -top-4 left-4 bg-[#00BFFF] text-white px-3 py-1 rounded-full text-sm shadow-md">
@@ -144,7 +181,9 @@ export default function ProjectsSection() {
 
                         <div className="w-full flex flex-col md:flex-row gap-6">
                             <div className="flex-1 flex flex-col gap-2">
-                                <label className="text-[#00BFFF] font-semibold mb-1">Project Name</label>
+                                <label className="text-[#00BFFF] font-semibold mb-1">
+                                    Project Name
+                                </label>
                                 <input
                                     type="text"
                                     name="projectName"
@@ -156,45 +195,76 @@ export default function ProjectsSection() {
                                 />
                             </div>
                             <div className="flex-1 flex flex-col gap-2">
-                                <label className="text-[#00BFFF] font-semibold mb-1">Tags</label>
+                                <label className="text-[#00BFFF] font-semibold mb-1">
+                                    Tags
+                                </label>
                                 <CreatableSelect
                                     isMulti
                                     name="tags"
-                                    value={form.tags.map(tag => ({ label: tag, value: tag }))}
-                                    onChange={(selected) => handleTagsChange(index, selected)}
+                                    value={form.tags.map((tag) => ({
+                                        label: tag,
+                                        value: tag,
+                                    }))}
+                                    onChange={(selected) =>
+                                        handleTagsChange(index, selected)
+                                    }
                                     classNamePrefix="react-select"
                                     placeholder="Select or type to add tags..."
                                     styles={{
                                         control: (base, state) => ({
                                             ...base,
-                                            backgroundColor: 'rgba(255,255,255,0.06)',
-                                            borderRadius: '0.75rem',
-                                            border: state.isFocused ? '2px solid #00BFFF' : '2px solid transparent',
-                                            boxShadow: state.isFocused ? '0 0 12px 2px #00BFFF99' : 'none',
-                                            minHeight: '48px',
-                                            color: '#fff',
+                                            backgroundColor:
+                                                "rgba(255,255,255,0.06)",
+                                            borderRadius: "0.75rem",
+                                            border: state.isFocused
+                                                ? "2px solid #00BFFF"
+                                                : "2px solid transparent",
+                                            boxShadow: state.isFocused
+                                                ? "0 0 12px 2px #00BFFF99"
+                                                : "none",
+                                            minHeight: "48px",
+                                            color: "#fff",
                                         }),
                                         multiValue: (base) => ({
                                             ...base,
-                                            backgroundColor: '#1b263b',
-                                            borderRadius: '0.5rem',
+                                            backgroundColor: "#1b263b",
+                                            borderRadius: "0.5rem",
                                         }),
-                                        multiValueLabel: (base) => ({ ...base, color: '#fff' }),
+                                        multiValueLabel: (base) => ({
+                                            ...base,
+                                            color: "#fff",
+                                        }),
                                         multiValueRemove: (base) => ({
                                             ...base,
-                                            color: '#00BFFF',
-                                            ':hover': { backgroundColor: '#00BFFF22', color: '#00BFFF' },
+                                            color: "#00BFFF",
+                                            ":hover": {
+                                                backgroundColor: "#00BFFF22",
+                                                color: "#00BFFF",
+                                            },
                                         }),
-                                        input: (base) => ({ ...base, color: '#fff' }),
-                                        placeholder: (base) => ({ ...base, color: '#b0b8c1' }),
-                                        menu: (base) => ({ ...base, backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: '0.75rem' }),
+                                        input: (base) => ({
+                                            ...base,
+                                            color: "#fff",
+                                        }),
+                                        placeholder: (base) => ({
+                                            ...base,
+                                            color: "#b0b8c1",
+                                        }),
+                                        menu: (base) => ({
+                                            ...base,
+                                            backgroundColor:
+                                                "rgba(255,255,255,0.06)",
+                                            borderRadius: "0.75rem",
+                                        }),
                                     }}
                                 />
                             </div>
                         </div>
 
                         <div className="w-full flex flex-col gap-2">
-                            <label className="text-[#00BFFF] font-semibold mb-1">Project Description</label>
+                            <label className="text-[#00BFFF] font-semibold mb-1">
+                                Project Description
+                            </label>
                             <textarea
                                 name="projectDescription"
                                 value={form.projectDescription}
@@ -208,7 +278,9 @@ export default function ProjectsSection() {
 
                         <div className="w-full flex flex-col md:flex-row gap-6">
                             <div className="flex-1 flex flex-col gap-2">
-                                <label className="text-[#00BFFF] font-semibold mb-1">GitHub URL</label>
+                                <label className="text-[#00BFFF] font-semibold mb-1">
+                                    GitHub URL
+                                </label>
                                 <input
                                     type="url"
                                     name="githubUrl"
@@ -220,27 +292,36 @@ export default function ProjectsSection() {
                                 />
                             </div>
                             <div className="flex-1 flex flex-col gap-2">
-                                <label className="text-[#00BFFF] font-semibold mb-1">Logo (optional)</label>
+                                <label className="text-[#00BFFF] font-semibold mb-1">
+                                    Logo (optional)
+                                </label>
                                 <input
                                     type="file"
                                     name="logoFilename"
-                                    onChange={(e) => handleFileChange(index, e)}
+                                    onChange={(e) =>
+                                        handleFileChange(index, e)
+                                    }
                                     accept="image/*"
                                     className="w-full px-4 py-2 rounded-xl bg-[#232b3e] text-white border-2 border-transparent focus:border-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] transition-all duration-300 hover:border-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#0077C8] file:text-white file:transition-all file:duration-300 file:hover:bg-[#00BFFF]"
                                 />
-                                {form.logoFilename && typeof form.logoFilename === 'string' && (
-                                    <img
-                                        src={form.logoFilename}
-                                        alt="Logo Preview"
-                                        className="mt-2 h-16 w-16 object-cover rounded-md border border-[#00BFFF]/50"
-                                    />
-                                )}
+                                {form.logoFilename &&
+                                    typeof form.logoFilename === "string" && (
+                                        <img
+                                            src={form.logoFilename}
+                                            alt="Logo Preview"
+                                            className="mt-2 h-16 w-16 object-cover rounded-md border border-[#00BFFF]/50"
+                                        />
+                                    )}
                             </div>
                         </div>
                     </div>
                 ))}
 
-                <button type="button" onClick={addProject} className="mt-6 px-4 py-2 rounded-lg bg-[#00BFFF]/20 border border-[#00BFFF]/40 text-[#00BFFF] font-semibold transition hover:bg-[#00BFFF]/40 hover:text-white">
+                <button
+                    type="button"
+                    onClick={addProject}
+                    className="mt-6 px-4 py-2 rounded-lg bg-[#00BFFF]/20 border border-[#00BFFF]/40 text-[#00BFFF] font-semibold transition hover:bg-[#00BFFF]/40 hover:text-white"
+                >
                     ➕ Add Another Project
                 </button>
 

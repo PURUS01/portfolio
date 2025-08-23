@@ -23,7 +23,7 @@ function ProjectsPage() {
               languages: p.tags || [],
               url: p.githubUrl,
               image: p.logoFilename
-                ? `/assets/${p.logoFilename}` // adjust if logos are stored in /public/assets
+                ? `${p.logoFilename}` // adjust if logos are stored in /public/assets
                 : "https://via.placeholder.com/80x80.png?text=No+Logo",
             }));
             setProjects(formattedProjects);

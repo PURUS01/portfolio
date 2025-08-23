@@ -34,24 +34,36 @@ export default function ProfileImageUpload() {
         }
     };
 
-    const convertToBase64 = (file) =>
-        new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-        });
+    // 🔹 Upload to Cloudinary instead of Base64
+    const uploadToCloudinary = async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "portfolio_images"); // create in Cloudinary settings
+
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/dszhosak1/upload",
+            { method: "POST", body: formData }
+        );
+
+        if (!res.ok) throw new Error("Cloudinary upload failed");
+        return await res.json();
+    };
 
     const updateProfileImage = async () => {
         if (!file) throw new Error("No file selected");
-        const base64 = await convertToBase64(file);
 
-        // Update only profileImage field in the about document
+        // 1. Upload to Cloudinary
+        const uploaded = await uploadToCloudinary(file);
+
+        // 2. Save URL in Firestore
         await setDoc(
             doc(firestore, "portfolion", "about"),
-            { profileImage: base64, updatedAt: new Date() },
+            { profileImage: uploaded.secure_url, updatedAt: new Date() },
             { merge: true }
         );
+
+        // 3. Update preview with Cloudinary URL
+        setPreview(uploaded.secure_url);
         setFile(null);
     };
 
