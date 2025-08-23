@@ -157,7 +157,7 @@ function HomePage() {
                 {/* Download CV Button */}
                 <div className="pt-6">
                   <a
-                    href="/cv.pdf"
+                    href="/Purus.pdf"
                     download
                     className="inline-flex items-center gap-3 px-6 py-3 bg-[#0077C8] text-white font-bold text-base sm:text-lg rounded-lg hover:bg-[#005F9E] transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-[#00BFFF]/40 border-2 border-[#0077C8]/60 hover:border-[#005F9E]/40"
                   >
@@ -191,7 +191,7 @@ function HomePage() {
                 {/* Download CV Button */}
                 <div className="pt-10">
                   <a
-                    href="/cv.pdf"
+                    href="/Purus.pdf"
                     download
                     className="inline-flex items-center gap-4 px-8 py-4 bg-[#0077C8] text-white font-bold text-lg rounded-lg hover:bg-[#005F9E] transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-[#00BFFF]/40 border-2 border-[#0077C8]/60 hover:border-[#005F9E]/40"
                   >
