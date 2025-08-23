@@ -123,7 +123,7 @@ function HomePage() {
 
                       {/* Profile Image */}
                       <img
-                        src="/images/purus.png"
+                        src={data.profileImage}
                         alt="Kukanenthiran Purusothman"
                         className="w-full h-full object-cover transition-all duration-700 hover:brightness-110 filter"
                         style={{
