@@ -77,11 +77,11 @@ export default function ProfileImageUpload() {
     };
 
     return (
-        <div className="w-full max-w-3xl flex flex-col gap-4 items-start mb-8">
-            <label className="text-[#00BFFF] font-semibold mb-1">Profile Image</label>
+        <div className="w-full max-w-3xl flex flex-col gap-4 items-start mb-6 md:mb-8">
+            <label className="text-[#00BFFF] font-semibold mb-3 text-base md:text-lg">Profile Image</label>
             <div className="w-full flex flex-col items-center">
                 <div
-                    className={`border-2 border-dashed border-[#00BFFF] rounded-xl w-full flex flex-col items-center justify-center py-6 mb-2 cursor-pointer ${isLoading ? "opacity-50 pointer-events-none" : "bg-white/5"
+                    className={`border-2 border-dashed border-[#00BFFF] rounded-xl w-full flex flex-col items-center justify-center py-6 md:py-8 mb-4 cursor-pointer transition-all duration-300 hover:border-[#00BFFF]/60 hover:bg-white/10 ${isLoading ? "opacity-50 pointer-events-none" : "bg-white/5"
                         }`}
                     onClick={() => document.getElementById("profile-image-input").click()}
                 >
@@ -89,13 +89,14 @@ export default function ProfileImageUpload() {
                         <img
                             src={preview}
                             alt="Profile Preview"
-                            className="w-32 h-32 rounded-full object-cover mb-2 border-4 border-white/20"
+                            className="w-20 h-20 md:w-32 md:h-32 rounded-full object-cover mb-3 border-4 border-white/20"
                         />
                     ) : (
-                        <div className="w-32 h-32 rounded-full bg-[#0a192f]/40 flex items-center justify-center mb-2">
+                        <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-[#0a192f]/40 flex items-center justify-center mb-3">
                             <svg
-                                width="48"
-                                height="48"
+                                width="28"
+                                height="28"
+                                className="md:w-12 md:h-12"
                                 fill="#00BFFF"
                                 viewBox="0 0 24 24"
                             >
@@ -103,7 +104,7 @@ export default function ProfileImageUpload() {
                             </svg>
                         </div>
                     )}
-                    <span className="text-white/60 text-sm">
+                    <span className="text-white/60 text-sm text-center px-4">
                         Drop your new profile image here (max 10MB)
                     </span>
                 </div>
@@ -115,10 +116,10 @@ export default function ProfileImageUpload() {
                     onChange={handleFileChange}
                     disabled={isLoading}
                 />
-                <div className="flex gap-4 mt-2 w-full">
+                <div className="flex gap-3 w-full max-w-sm">
                     <button
                         type="button"
-                        className="flex-1 px-4 py-2 rounded-lg bg-white/10 text-white font-semibold border border-[#00BFFF]/30 hover:bg-[#0077C8]/30 transition"
+                        className="flex-1 px-4 py-3 rounded-lg bg-white/10 text-white font-semibold border border-[#00BFFF]/30 hover:bg-[#0077C8]/30 transition-all duration-300 text-sm"
                         onClick={() => {
                             setFile(null);
                             setPreview(null);
@@ -129,7 +130,7 @@ export default function ProfileImageUpload() {
                     </button>
                     <button
                         type="button"
-                        className={`flex-1 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 text-sm ${isLoading ? "opacity-50 pointer-events-none" : ""
+                        className={`flex-1 px-4 py-3 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 text-sm ${isLoading ? "opacity-50 pointer-events-none" : ""
                             }`}
                         onClick={handleSave}
                         disabled={!file || isLoading}

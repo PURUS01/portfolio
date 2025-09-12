@@ -161,98 +161,99 @@ export default function AboutSection() {
 
     return (
         <>
-            <h3 className="text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">About</h3>
+            <h3 className="hidden md:block text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">About</h3>
             <ProfileImageUpload />
-            <form onSubmit={handleSubmit} className="w-full max-w-3xl flex flex-col gap-10 items-center">
+            <form onSubmit={handleSubmit} className="w-full max-w-3xl flex flex-col gap-8 md:gap-10 items-center">
                 {/* Personal Info */}
-                <div className="w-full flex flex-col md:flex-row gap-6">
-                    <div className="flex-1 flex flex-col gap-2">
-                        <label className="text-[#00BFFF] font-semibold mb-1">First Name</label>
-                        <input type="text" onChange={(e) => setFirstName(e.target.value)} value={firstName} placeholder="Enter your first name" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
+                <div className="w-full flex flex-col md:flex-row gap-6 md:gap-6">
+                    <div className="flex-1 flex flex-col gap-3">
+                        <label className="text-[#00BFFF] font-semibold mb-1 text-base">First Name</label>
+                        <input type="text" onChange={(e) => setFirstName(e.target.value)} value={firstName} placeholder="Enter your first name" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
                     </div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <label className="text-[#00BFFF] font-semibold mb-1">Last Name</label>
-                        <input type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} placeholder="Enter your last name" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                    </div>
-                </div>
-                <div className="w-full flex flex-col md:flex-row gap-6">
-                    <div className="flex-1 flex flex-col gap-2">
-                        <label className="text-[#00BFFF] font-semibold mb-1">Title</label>
-                        <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} placeholder="Your professional title" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                    </div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <label className="text-[#00BFFF] font-semibold mb-1">City</label>
-                        <input type="text" onChange={(e) => setCity(e.target.value)} value={city} placeholder="City" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
-                    </div>
-                    <div className="flex-1 flex flex-col gap-2">
-                        <label className="text-[#00BFFF] font-semibold mb-1">Country</label>
-                        <input type="text" onChange={(e) => setCountry(e.target.value)} value={country} placeholder="Country" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
+                    <div className="flex-1 flex flex-col gap-3">
+                        <label className="text-[#00BFFF] font-semibold mb-1 text-base">Last Name</label>
+                        <input type="text" onChange={(e) => setLastName(e.target.value)} value={lastName} placeholder="Enter your last name" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
                     </div>
                 </div>
-                <div className="w-full flex flex-col gap-2">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Email</label>
-                    <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Your email address" className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66]" />
+                <div className="w-full flex flex-col md:flex-row gap-6 md:gap-6">
+                    <div className="flex-1 flex flex-col gap-3">
+                        <label className="text-[#00BFFF] font-semibold mb-1 text-base">Title</label>
+                        <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} placeholder="Your professional title" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-3">
+                        <label className="text-[#00BFFF] font-semibold mb-1 text-base">City</label>
+                        <input type="text" onChange={(e) => setCity(e.target.value)} value={city} placeholder="City" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-3">
+                        <label className="text-[#00BFFF] font-semibold mb-1 text-base">Country</label>
+                        <input type="text" onChange={(e) => setCountry(e.target.value)} value={country} placeholder="Country" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
+                    </div>
+                </div>
+                <div className="w-full flex flex-col gap-3">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Email</label>
+                    <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Your email address" className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] text-base" />
                 </div>
                 {/* About Me */}
-                <div className="w-full flex flex-col gap-2">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Bio</label>
-                    <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder="Write about yourself..." rows={10} className="w-full px-4 py-2 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none" />
+                <div className="w-full flex flex-col gap-3">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Bio</label>
+                    <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder="Write about yourself..." rows={6} className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none text-base" />
                 </div>
                 {/* Education */}
-                <div className="w-full flex flex-col gap-6">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Education</label>
+                <div className="w-full flex flex-col gap-6 md:gap-6">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Education</label>
 
                     {educationList.map((edu, index) => (
                         <div
                             key={index}
-                            className="p-4 rounded-xl bg-white/5 border border-[#00BFFF44] flex flex-col gap-4"
+                            className="relative p-4 rounded-xl bg-white/5 border border-[#00BFFF44] flex flex-col gap-3"
                         >
-                            <div className="flex flex-wrap gap-6">
+                            {/* Remove Button - positioned absolutely in top-right */}
+                            {educationList.length > 1 && (
+                                <button
+                                    type="button"
+                                    onClick={() => removeEducation(index)}
+                                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-all duration-300 z-10"
+                                >
+                                    ✕
+                                </button>
+                            )}
+
+                            {/* Education Content */}
+                            <div className="flex flex-col sm:flex-row gap-3">
                                 <input
                                     type="text"
                                     placeholder="Bachelor's Degree in Computer Science"
                                     value={edu.degree}
                                     onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
-                                    className="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60
+                                    className="flex-1 min-w-[140px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60
             border-2 border-transparent
             focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
             hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-            transition-all duration-300 ease-in-out"
+            transition-all duration-300 ease-in-out text-base"
                                 />
                                 <input
                                     type="text"
                                     placeholder="University Name"
                                     value={edu.university}
                                     onChange={(e) => handleEducationChange(index, 'university', e.target.value)}
-                                    className="flex-1 min-w-[160px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60
+                                    className="flex-1 min-w-[160px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60
             border-2 border-transparent
             focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
             hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-            transition-all duration-300 ease-in-out"
+            transition-all duration-300 ease-in-out text-base"
                                 />
                                 <input
                                     type="text"
                                     placeholder="2016 - 2020"
                                     value={edu.year}
                                     onChange={(e) => handleEducationChange(index, 'year', e.target.value)}
-                                    className="flex-1 min-w-[120px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60
+                                    className="flex-1 min-w-[120px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60
             border-2 border-transparent
             focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
             hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-            transition-all duration-300 ease-in-out"
+            transition-all duration-300 ease-in-out text-base"
                                 />
                             </div>
-
-                            {educationList.length > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={() => removeEducation(index)}
-                                    className="self-end px-2 py-1 bg-red-500/70 hover:bg-red-600 text-white rounded-lg text-xs
-            hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-all duration-300"
-                                >
-                                    ✕
-                                </button>
-                            )}
                         </div>
                     ))}
 
@@ -268,7 +269,7 @@ export default function AboutSection() {
       transition-all duration-300
       hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-white/40
       focus:shadow-[0_0_20px_rgba(255,255,255,0.6)] focus:shadow-white/60
-      w-40 text-xs flex items-center justify-center gap-1.5
+      w-32 md:w-40 text-xs flex items-center justify-center gap-1.5
     "
                     >
                         <span className="text-base font-bold">+</span> Add Education
@@ -276,8 +277,8 @@ export default function AboutSection() {
                 </div>
 
                 {/* Technical Skills */}
-                <div className="w-full flex flex-col gap-2">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Technical Skills</label>
+                <div className="w-full flex flex-col gap-3">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Technical Skills</label>
                     <div className="group">
                         <CreatableSelect
                             onChange={(e) => setSkills(e)}
@@ -347,82 +348,87 @@ export default function AboutSection() {
                     </div>
                 </div>
                 {/* Professional Experience */}
-                <div className="w-full flex flex-col gap-6">
-                    <label className="text-[#00BFFF] font-semibold mb-1">Professional Experience</label>
+                <div className="w-full flex flex-col gap-6 md:gap-6">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Professional Experience</label>
 
                     {experiences.map((exp, index) => (
                         <div
                             key={index}
-                            className="p-4 rounded-xl bg-white/5 border border-[#00BFFF44] flex flex-col gap-4"
+                            className="relative p-4 rounded-xl bg-white/5 border border-[#00BFFF44] flex flex-col gap-3"
                         >
-                            {/* Top row */}
-                            <div className="flex flex-wrap gap-4">
-                                <input
-                                    type="text"
-                                    placeholder="2022 - Present"
-                                    value={exp.period}
-                                    onChange={(e) =>
-                                        handleExperienceChange(index, "period", e.target.value)
-                                    }
-                                    className="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
-                        border-2 border-transparent 
-                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
-                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-                        transition-all duration-300 ease-in-out"
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Frontend Developer"
-                                    value={exp.title}
-                                    onChange={(e) =>
-                                        handleExperienceChange(index, "title", e.target.value)
-                                    }
-                                    className="flex-1 min-w-[160px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
-                        border-2 border-transparent 
-                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
-                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-                        transition-all duration-300 ease-in-out"
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Company Name"
-                                    value={exp.company}
-                                    onChange={(e) =>
-                                        handleExperienceChange(index, "company", e.target.value)
-                                    }
-                                    className="flex-1 min-w-[160px] px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
-                        border-2 border-transparent 
-                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
-                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-                        transition-all duration-300 ease-in-out"
-                                />
-                            </div>
-
-                            {/* Description */}
-                            <textarea
-                                placeholder="Describe your responsibilities..."
-                                value={exp.description}
-                                onChange={(e) =>
-                                    handleExperienceChange(index, "description", e.target.value)
-                                }
-                                className="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-white/60 
-                    border-2 border-transparent 
-                    focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
-                    hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-                    transition-all duration-300 ease-in-out resize-none"
-                            />
-
-                            {/* Remove Button */}
+                            {/* Remove Button - positioned absolutely in top-right */}
                             {experiences.length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeExperience(index)}
-                                    className="self-end px-2 py-1 bg-red-500/70 hover:bg-red-600 text-white rounded-lg text-xs
-                        hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-all duration-300"
+                                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg hover:shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-all duration-300 z-10"
                                 >
                                     ✕
                                 </button>
                             )}
+
+                            {/* Experience Content */}
+                            <div className="flex flex-col gap-3">
+                                {/* Period and Title Row */}
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <input
+                                        type="text"
+                                        placeholder="2018 - 2022"
+                                        value={exp.period}
+                                        onChange={(e) =>
+                                            handleExperienceChange(index, "period", e.target.value)
+                                        }
+                                        className="flex-1 min-w-[120px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 
+                            border-2 border-transparent 
+                            focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                            hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                            transition-all duration-300 ease-in-out text-base"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Full Stack Developer"
+                                        value={exp.title}
+                                        onChange={(e) =>
+                                            handleExperienceChange(index, "title", e.target.value)
+                                        }
+                                        className="flex-1 min-w-[160px] px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 
+                            border-2 border-transparent 
+                            focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                            hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                            transition-all duration-300 ease-in-out text-base"
+                                    />
+                                </div>
+
+                                {/* Company Name */}
+                                <input
+                                    type="text"
+                                    placeholder="XYZ Web Agency"
+                                    value={exp.company}
+                                    onChange={(e) =>
+                                        handleExperienceChange(index, "company", e.target.value)
+                                    }
+                                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 
+                        border-2 border-transparent 
+                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                        transition-all duration-300 ease-in-out text-base"
+                                />
+
+                                {/* Description */}
+                                <textarea
+                                    placeholder="Built responsive web applications using Laravel, Vue.js, and MySQL. Collaborated with clients to deliver custom solutions."
+                                    value={exp.description}
+                                    onChange={(e) =>
+                                        handleExperienceChange(index, "description", e.target.value)
+                                    }
+                                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 
+                        border-2 border-transparent 
+                        focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
+                        hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
+                        transition-all duration-300 ease-in-out resize-none text-base"
+                                    rows={3}
+                                />
+                            </div>
                         </div>
                     ))}
 
@@ -439,14 +445,14 @@ export default function AboutSection() {
             transition-all duration-300 
             hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-white/40
             focus:shadow-[0_0_20px_rgba(255,255,255,0.6)] focus:shadow-white/60
-            w-40 text-xs flex items-center justify-center gap-1.5
+            w-32 md:w-40 text-xs flex items-center justify-center gap-1.5
         "
                     >
                         <span className="text-base font-bold">+</span> Add Experience
                     </button>
                 </div>
 
-                <button type="submit" disabled={isLoading} className="mt-8 px-4 py-2 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 sticky bottom-0 z-50 w-48 text-sm">{isLoading ? "Updating..." : "Update Details"}</button>
+                <button type="submit" disabled={isLoading} className="mt-6 md:mt-8 px-6 py-4 rounded-lg bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white font-semibold shadow-lg border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-105 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50 w-full md:w-48 text-base">{isLoading ? "Updating..." : "Update Details"}</button>
             </form>
         </>
     );
