@@ -162,7 +162,8 @@ function AboutPage() {
             <div className="mx-auto w-24 h-1 rounded-full bg-gradient-to-r from-[#0077C8] to-[#00BFFF]"></div>
           </div>
 
-          <div className="relative">
+          {/* Desktop Timeline View */}
+          <div className="hidden lg:block relative">
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-[#0077C8] to-[#00BFFF] rounded-full"></div>
             <div className="space-y-16">
               {aboutData.experiences.map((exp, idx) => (
@@ -206,6 +207,39 @@ function AboutPage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Mobile Vertical Cards View */}
+          <div className="lg:hidden space-y-6">
+            {aboutData.experiences.map((exp, idx) => (
+              <div
+                key={idx}
+                className="relative bg-gradient-to-br from-[#0077C8]/10 via-[#00BFFF]/5 to-[#0077C8]/10 rounded-2xl p-6 border border-[#0077C8]/30 overflow-hidden hover:shadow-lg hover:shadow-[#0077C8]/20 transition-all duration-300"
+              >
+                {/* Timeline indicator for mobile */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#0077C8] to-[#00BFFF]"></div>
+                <div className="absolute left-0 top-6 w-3 h-3 bg-[#0077C8] border-2 border-[#00BFFF] rounded-full transform -translate-x-1"></div>
+                
+                <div className="ml-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                    <span className="font-semibold text-sm text-[#00BFFF] mb-1 sm:mb-0">
+                      {exp.period}
+                    </span>
+                    <div className="w-8 h-1 bg-gradient-to-r from-[#0077C8] to-[#00BFFF] rounded-full sm:hidden"></div>
+                  </div>
+                  
+                  <h5 className="text-xl font-bold text-[#0077C8] mb-2">
+                    {exp.title}
+                  </h5>
+                  
+                  <p className="text-gray-300 font-medium mb-3">{exp.company}</p>
+                  
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {exp.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
