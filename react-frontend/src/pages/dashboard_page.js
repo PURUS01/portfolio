@@ -88,7 +88,7 @@ export default function DashboardPage() {
                 
                 {/* Sidebar */}
                 <div
-                    className={`fixed md:relative top-0 left-0 h-full md:h-auto min-h-screen md:min-h-screen flex flex-col py-4 md:py-8 px-3 md:px-2 border-r border-white/10 transition-all duration-300 bg-[#0a192f]/95 md:bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-y-auto flex-shrink-0 custom-scrollbar ${sidebarOpen
+                    className={`fixed md:relative top-0 left-0 h-full md:h-auto min-h-screen md:min-h-screen flex flex-col py-4 md:py-8 px-2 md:px-1 border-r border-white/10 transition-all duration-300 bg-[#0a192f]/95 md:bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-y-auto overflow-x-hidden flex-shrink-0 custom-scrollbar ${sidebarOpen
                             ? 'w-80 md:w-64 md:min-w-[16rem] md:max-w-[16rem] translate-x-0'
                             : 'w-0 md:w-14 md:min-w-[3.5rem] md:max-w-[3.5rem] -translate-x-full md:translate-x-0'
                         }`}
@@ -132,12 +132,13 @@ export default function DashboardPage() {
                         </button>
                     </div>
 
+
                     {/* Navigation Items */}
-                    <nav className={`flex flex-col gap-3 w-full mt-8 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+                    <nav className={`flex flex-col gap-4 w-full mt-8 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
                         {sidebarItems.map(item => (
                             <button
                                 key={item.key}
-                                className={`flex items-center ${sidebarOpen ? 'w-full px-4 py-3' : 'w-12 h-12 justify-center'} rounded-xl font-semibold transition-all duration-300 focus:outline-none border-2 relative backdrop-blur-md
+                                className={`flex items-center ${sidebarOpen ? 'w-full px-4 py-3' : 'w-10 h-10 justify-center mx-auto'} rounded-xl font-semibold transition-all duration-300 focus:outline-none border-2 relative backdrop-blur-md
                                 ${activeTab === item.key
                                         ? 'bg-gradient-to-r from-[#00BFFF]/20 to-[#00BFFF]/10 text-[#00BFFF] border-[#00BFFF] shadow-[0_0_16px_2px_#00BFFF99]'
                                         : 'bg-white/5 text-white border-white/20 hover:bg-white/10'}
@@ -158,10 +159,10 @@ export default function DashboardPage() {
                     </nav>
 
                     {/* Logout Button */}
-                    <div className={`mt-auto py-4 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+                    <div className={`mt-auto py-6 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
                         <button
                             onClick={handleLogout}
-                            className={`flex items-center ${sidebarOpen ? 'w-full px-4 py-3' : 'w-12 h-12 justify-center'} rounded-xl font-semibold transition-all duration-300 focus:outline-none border-2 border-red-500/30 text-red-400 hover:text-white hover:bg-red-500/20 hover:border-red-500 hover:shadow-[0_0_12px_2px_rgba(255,0,0,0.4)]`}
+                            className={`flex items-center ${sidebarOpen ? 'w-full px-4 py-3' : 'w-10 h-10 justify-center mx-auto'} rounded-xl font-semibold transition-all duration-300 focus:outline-none border-2 border-red-500/30 text-red-400 hover:text-white hover:bg-red-500/20 hover:border-red-500 hover:shadow-[0_0_12px_2px_rgba(255,0,0,0.4)]`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 flex-shrink-0">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5" />
@@ -173,6 +174,20 @@ export default function DashboardPage() {
 
                 {/* Main Content Area */}
                 <div className="flex-1 flex flex-col px-2 sm:px-4 md:px-12 py-4 md:py-10 min-w-0">
+                    {/* Desktop Floating Toggle Button - Only visible when sidebar is collapsed */}
+                    {!sidebarOpen && (
+                        <button
+                            className="hidden md:block fixed top-6 left-16 z-50 w-9 h-9 flex items-center justify-center hover:bg-[#00BFFF]/15 rounded-lg transition-all duration-300 hover:scale-110 group"
+                            onClick={() => setSidebarOpen(true)}
+                            aria-label="Open sidebar"
+                            style={{ outline: 'none' }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#00BFFF" className="w-5 h-5 drop-shadow-[0_0_6px_#00BFFF] group-hover:drop-shadow-[0_0_8px_#00BFFF] transition-all duration-300" style={{ transform: 'translateX(0.5px)' }}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    )}
+
                     {/* Mobile Header */}
                     <div className="flex items-center justify-between mb-4 md:hidden">
                         <button
