@@ -100,7 +100,7 @@ export default function DashboardPage() {
                         {user && (
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#00BFFF]/50 flex items-center justify-center text-white font-bold text-lg">
-                                    {user.displayName ? user.displayName.charAt(0) : "U"}
+                                    {(user.displayName || user.email?.split('@')[0] || "U").charAt(0).toUpperCase()}
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-sm md:text-base font-medium text-white">
@@ -133,7 +133,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Navigation Items */}
-                    <nav className={`flex flex-col gap-3 w-full transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+                    <nav className={`flex flex-col gap-3 w-full mt-8 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
                         {sidebarItems.map(item => (
                             <button
                                 key={item.key}
