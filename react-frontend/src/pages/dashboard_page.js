@@ -88,7 +88,7 @@ export default function DashboardPage() {
                 
                 {/* Sidebar */}
                 <div
-                    className={`fixed md:relative top-0 left-0 h-full md:h-auto min-h-screen md:min-h-screen flex flex-col py-4 md:py-8 px-3 md:px-2 border-r border-white/10 transition-all duration-300 bg-[#0a192f]/95 md:bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-y-auto flex-shrink-0 ${sidebarOpen
+                    className={`fixed md:relative top-0 left-0 h-full md:h-auto min-h-screen md:min-h-screen flex flex-col py-4 md:py-8 px-3 md:px-2 border-r border-white/10 transition-all duration-300 bg-[#0a192f]/95 md:bg-[#0a192f]/80 backdrop-blur-xl md:rounded-r-3xl shadow-[0_0_32px_4px_#00BFFF55] z-20 overflow-y-auto flex-shrink-0 custom-scrollbar ${sidebarOpen
                             ? 'w-80 md:w-64 md:min-w-[16rem] md:max-w-[16rem] translate-x-0'
                             : 'w-0 md:w-14 md:min-w-[3.5rem] md:max-w-[3.5rem] -translate-x-full md:translate-x-0'
                         }`}
@@ -203,7 +203,7 @@ export default function DashboardPage() {
                     </div>
                     
                     <div className="flex-1 flex items-center justify-center">
-                        <div className="w-full sm:w-[95%] md:w-[90%] h-full max-h-[85vh] md:max-h-[80vh] bg-[#0a192f]/80 rounded-2xl shadow-[0_0_32px_4px_#00BFFF55] backdrop-blur-xl border border-[#00BFFF]/20 p-4 sm:p-6 md:p-16 flex flex-col items-center animate-fade-in overflow-y-auto">
+                        <div className="w-full sm:w-[95%] md:w-[90%] h-full max-h-[85vh] md:max-h-[80vh] bg-[#0a192f]/80 rounded-2xl shadow-[0_0_32px_4px_#00BFFF55] backdrop-blur-xl border border-[#00BFFF]/20 p-4 sm:p-6 md:p-16 flex flex-col items-center animate-fade-in overflow-y-auto animated-scrollbar glowing-scrollbar">
                             {activeTab === 'about' && <AboutSection />}
                             {activeTab === 'projects' && <ProjectsSection />}
                             {activeTab === 'getintouch' && <GetInTouchSection />}

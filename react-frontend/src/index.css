@@ -75,3 +75,326 @@ code {
 .slide-out-left {
   animation: slideOutToLeft 0.3s ease-in;
 }
+
+/* Custom Scrollbar Design */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 50%, #00BFFF 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  box-shadow: 
+    0 0 8px rgba(0, 191, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 50%, #00BFFF 100%);
+  box-shadow: 
+    0 0 12px rgba(0, 191, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #0077C8 0%, #00BFFF 50%, #0077C8 100%);
+  box-shadow: 
+    0 0 16px rgba(0, 191, 255, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(10, 25, 47, 0.3);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.3);
+}
+
+/* Custom scrollbar for specific containers */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 191, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 191, 255, 0.2);
+  box-shadow: 0 0 6px rgba(0, 191, 255, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 100%);
+  box-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+}
+
+/* Animated scrollbar for main content area */
+.animated-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.3);
+}
+
+.animated-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.animated-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.4);
+  border-radius: 12px;
+  border: 2px solid rgba(0, 191, 255, 0.1);
+  box-shadow: inset 0 0 8px rgba(0, 191, 255, 0.1);
+}
+
+.animated-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, 
+    rgba(0, 191, 255, 0.9) 0%, 
+    rgba(0, 119, 200, 0.9) 30%, 
+    rgba(0, 191, 255, 0.9) 70%, 
+    rgba(0, 255, 178, 0.9) 100%);
+  border-radius: 12px;
+  border: 2px solid rgba(0, 191, 255, 0.4);
+  box-shadow: 
+    0 0 12px rgba(0, 191, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.animated-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, 
+    rgba(0, 191, 255, 1) 0%, 
+    rgba(0, 255, 178, 1) 30%, 
+    rgba(0, 191, 255, 1) 70%, 
+    rgba(0, 119, 200, 1) 100%);
+  box-shadow: 
+    0 0 16px rgba(0, 191, 255, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.animated-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, 
+    rgba(0, 119, 200, 1) 0%, 
+    rgba(0, 191, 255, 1) 50%, 
+    rgba(0, 119, 200, 1) 100%);
+  box-shadow: 
+    0 0 20px rgba(0, 191, 255, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.animated-scrollbar::-webkit-scrollbar-corner {
+  background: rgba(10, 25, 47, 0.4);
+  border-radius: 12px;
+}
+
+/* Glowing scrollbar effect */
+.glowing-scrollbar::-webkit-scrollbar-thumb {
+  animation: scrollbarGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes scrollbarGlow {
+  0% {
+    box-shadow: 
+      0 0 8px rgba(0, 191, 255, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    box-shadow: 
+      0 0 16px rgba(0, 191, 255, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Additional scrollbar styles for specific components */
+/* Form scrollbar - for long forms like AboutSection */
+.form-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.2);
+}
+
+.form-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.form-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 191, 255, 0.05);
+}
+
+.form-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 191, 255, 0.2);
+  box-shadow: 0 0 4px rgba(0, 191, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.form-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 100%);
+  box-shadow: 0 0 6px rgba(0, 191, 255, 0.5);
+}
+
+/* Modal scrollbar - for modals and popups */
+.modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.4);
+}
+
+.modal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  box-shadow: 0 0 6px rgba(0, 191, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 100%);
+  box-shadow: 0 0 8px rgba(0, 191, 255, 0.6);
+  transform: scale(1.05);
+}
+
+/* List scrollbar - for message lists and project lists */
+.list-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.2);
+}
+
+.list-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.list-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.1);
+  border-radius: 5px;
+}
+
+.list-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 100%);
+  border-radius: 5px;
+  border: 1px solid rgba(0, 191, 255, 0.2);
+  box-shadow: 0 0 4px rgba(0, 191, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.list-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 100%);
+  box-shadow: 0 0 6px rgba(0, 191, 255, 0.5);
+}
+
+/* Textarea scrollbar - for text areas */
+.textarea-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.2);
+}
+
+.textarea-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.textarea-scrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 25, 47, 0.1);
+  border-radius: 4px;
+}
+
+.textarea-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00BFFF 0%, #0077C8 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 191, 255, 0.2);
+  box-shadow: 0 0 3px rgba(0, 191, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.textarea-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00BFFF 0%, #00FFB2 100%);
+  box-shadow: 0 0 5px rgba(0, 191, 255, 0.5);
+}
+
+/* Responsive scrollbar adjustments */
+@media (max-width: 768px) {
+  /* Make scrollbars slightly thicker on mobile for better touch interaction */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .form-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .list-scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  
+  .textarea-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Dark mode scrollbar adjustments */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: rgba(10, 25, 47, 0.4);
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(10, 25, 47, 0.3);
+  }
+  
+  .form-scrollbar::-webkit-scrollbar-track {
+    background: rgba(10, 25, 47, 0.2);
+  }
+}

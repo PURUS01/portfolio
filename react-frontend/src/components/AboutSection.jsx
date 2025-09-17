@@ -163,7 +163,7 @@ export default function AboutSection() {
         <>
             <h3 className="hidden md:block text-2xl font-bold mb-8 text-[#00BFFF] drop-shadow-lg">About</h3>
             <ProfileImageUpload />
-            <form onSubmit={handleSubmit} className="w-full max-w-3xl flex flex-col gap-8 md:gap-10 items-center">
+            <form onSubmit={handleSubmit} className="w-full max-w-3xl flex flex-col gap-8 md:gap-10 items-center form-scrollbar">
                 {/* Personal Info */}
                 <div className="w-full flex flex-col md:flex-row gap-6 md:gap-6">
                     <div className="flex-1 flex flex-col gap-3">
@@ -196,7 +196,7 @@ export default function AboutSection() {
                 {/* About Me */}
                 <div className="w-full flex flex-col gap-3">
                     <label className="text-[#00BFFF] font-semibold mb-1 text-base">Bio</label>
-                    <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder="Write about yourself..." rows={6} className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none text-base" />
+                    <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder="Write about yourself..." rows={6} className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 border-2 border-transparent focus:border-[#00BFFF] focus:text-[#00BFFF] focus:shadow-[0_0_12px_2px_#00BFFF99] focus:bg-[#0a192f]/60 focus:backdrop-blur-md transition-all duration-300 hover:border-[#00BFFF] hover:text-[#00BFFF] hover:shadow-[0_0_8px_2px_#00BFFF66] resize-none text-base textarea-scrollbar" />
                 </div>
                 {/* Education */}
                 <div className="w-full flex flex-col gap-6 md:gap-6">
@@ -425,7 +425,7 @@ export default function AboutSection() {
                         border-2 border-transparent 
                         focus:border-[#00BFFF] focus:shadow-[0_0_20px_rgba(0,191,255,0.6)] focus:shadow-[#00BFFF]/60
                         hover:border-[#00BFFF] hover:shadow-[0_0_15px_rgba(0,191,255,0.4)] hover:shadow-[#00BFFF]/40
-                        transition-all duration-300 ease-in-out resize-none text-base"
+                        transition-all duration-300 ease-in-out resize-none text-base textarea-scrollbar"
                                     rows={3}
                                 />
                             </div>
