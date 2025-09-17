@@ -121,7 +121,7 @@ code {
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #00BFFF rgba(10, 25, 47, 0.3);
+  /* scrollbar-color: #00BFFF rgba(10, 25, 47, 0.3); */
 }
 
 /* Custom scrollbar for specific containers */
