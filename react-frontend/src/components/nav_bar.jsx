@@ -65,7 +65,18 @@ function Navbar() {
       {/* Mobile social bar */}
       <div className="md:hidden flex justify-center mt-28 px-4">
         <div className="w-full max-w-sm border border-white/10 rounded-full px-6 py-2">
-          <ul className="flex justify-center space-x-6 text-xl text-gray-300">
+          <ul className="flex justify-center items-center space-x-4 text-xl text-gray-300">
+            {/* Dashboard Link (only if logged in) - Mobile */}
+            {isLoggedIn && (
+              <li className="mr-2">
+                <a
+                  href="/dashboard"
+                  className="px-3 py-1 rounded-lg border border-[#00BFFF]/40 text-[#00BFFF] font-medium text-sm bg-transparent hover:bg-[#00BFFF]/10 hover:shadow-[0_0_8px_1px_#00BFFF99] transition-all duration-300"
+                >
+                  Dashboard
+                </a>
+              </li>
+            )}
             <li className="hover:text-[#25D366] hover:scale-125 transition-all">
               <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
                 <FaWhatsapp />
@@ -172,6 +183,17 @@ function Navbar() {
                 </button>
               </li>
             ))}
+            {/* Dashboard Link in mobile menu (only if logged in) */}
+            {isLoggedIn && (
+              <li className="pt-2 border-t border-white/10">
+                <a
+                  href="/dashboard"
+                  className="block py-2 px-4 mx-4 rounded-lg border border-[#00BFFF]/40 text-[#00BFFF] font-medium bg-transparent hover:bg-[#00BFFF]/10 hover:shadow-[0_0_8px_1px_#00BFFF99] transition-all duration-300"
+                >
+                  Dashboard
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       )}
