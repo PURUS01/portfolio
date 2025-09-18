@@ -68,9 +68,14 @@ function ProjectsPage() {
                       alt={project.name}
                       className="w-10 h-10 rounded-full object-cover border border-white/20 mr-3 transition-all duration-300 ease-in-out group-hover/card:ring-2 group-hover/card:ring-[#00BFFF]"
                     />
-                    <h2 className="text-xl font-bold text-[#0077C8] hover:underline underline-offset-4 transition-all duration-300 ease-in-out">
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xl font-bold text-[#0077C8] hover:underline underline-offset-4 transition-all duration-300 ease-in-out cursor-pointer"
+                    >
                       {project.name}
-                    </h2>
+                    </a>
                   </div>
 
                   {/* Description */}
@@ -97,7 +102,7 @@ function ProjectsPage() {
                     rel="noopener noreferrer"
                     className="inline-block text-sm font-semibold text-[#00BFFF] hover:text-white border border-[#00BFFF] px-4 py-1 rounded-full hover:bg-[#0077C8]/10 transition-all duration-300 ease-in-out shadow-md shadow-[#00BFFF]/10"
                   >
-                    🚀 View on GitHub
+                    View on GitHub
                   </a>
                 </div>
               </div>
