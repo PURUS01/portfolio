@@ -7,12 +7,17 @@ const GetInTouchSection = () => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const [actionLoading, setActionLoading] = useState({ reply: false, delete: false });
+    const [actionLoading, setActionLoading] = useState({ reply: false, delete: false, deleteAll: false });
 
     // Modal states
     const [replyModal, setReplyModal] = useState({ open: false, messageId: null, replyText: '' });
     const [viewModal, setViewModal] = useState({ open: false, message: null });
     const [deleteModal, setDeleteModal] = useState({ open: false, messageId: null });
+    const [deleteAllModal, setDeleteAllModal] = useState({ open: false });
+
+    // Selection states
+    const [selectedMessages, setSelectedMessages] = useState(new Set());
+    const [selectAll, setSelectAll] = useState(false);
 
     const fetchMessages = async (isRefresh = false) => {
         if (isRefresh) setRefreshing(true);
@@ -58,6 +63,31 @@ const GetInTouchSection = () => {
     const closeViewModal = () => setViewModal({ open: false, message: null });
     const openDeleteModal = (id) => setDeleteModal({ open: true, messageId: id });
     const closeDeleteModal = () => setDeleteModal({ open: false, messageId: null });
+    const openDeleteAllModal = () => setDeleteAllModal({ open: true });
+    const closeDeleteAllModal = () => setDeleteAllModal({ open: false });
+
+    // Selection handlers
+    const handleSelectMessage = (messageId) => {
+        const newSelected = new Set(selectedMessages);
+        if (newSelected.has(messageId)) {
+            newSelected.delete(messageId);
+        } else {
+            newSelected.add(messageId);
+        }
+        setSelectedMessages(newSelected);
+        setSelectAll(newSelected.size === messages.length && messages.length > 0);
+    };
+
+    const handleSelectAll = () => {
+        if (selectAll) {
+            setSelectedMessages(new Set());
+            setSelectAll(false);
+        } else {
+            const allIds = new Set(messages.map(msg => msg.id));
+            setSelectedMessages(allIds);
+            setSelectAll(true);
+        }
+    };
 
     // Reply with toast.promise
     const handleReplySave = async () => {
@@ -116,19 +146,61 @@ const GetInTouchSection = () => {
         ).finally(() => setActionLoading(prev => ({ ...prev, delete: false })));
     };
 
+    // Delete all selected messages with toast.promise
+    const handleDeleteAllConfirm = async () => {
+        if (selectedMessages.size === 0) return;
+        
+        setActionLoading(prev => ({ ...prev, deleteAll: true }));
+
+        const deleteAllPromise = (async () => {
+            const messagesRef = doc(firestore, 'portfolion', 'messages');
+            const docSnap = await getDoc(messagesRef);
+
+            if (!docSnap.exists()) throw new Error('Document not found');
+
+            const data = docSnap.data();
+            const filteredMessages = data.messages.filter(msg => !selectedMessages.has(msg.id));
+            await updateDoc(messagesRef, { messages: filteredMessages });
+            setMessages(messages.filter(msg => !selectedMessages.has(msg.id)));
+            setSelectedMessages(new Set());
+            setSelectAll(false);
+            closeDeleteAllModal();
+        })();
+
+        toast.promise(
+            deleteAllPromise,
+            {
+                loading: `Deleting ${selectedMessages.size} message(s)...`,
+                success: <b>{selectedMessages.size} message(s) deleted successfully!</b>,
+                error: <b>Failed to delete messages.</b>,
+            }
+        ).finally(() => setActionLoading(prev => ({ ...prev, deleteAll: false })));
+    };
+
     if (loading) return <div className="py-20 flex justify-center items-center text-[#00BFFF] text-lg">Loading messages...</div>;
 
     return (
         <section className="py-4 sm:py-6 md:py-10 px-2 sm:px-4 md:px-8 lg:px-24 w-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <h3 className="text-xl sm:text-2xl font-bold text-[#00BFFF]">Messages / Requests</h3>
-                <button
-                    onClick={() => fetchMessages(true)}
-                    disabled={refreshing}
-                    className={`px-3 sm:px-4 py-2 rounded-lg border border-[#00BFFF]/50 text-[#00BFFF] transition hover:bg-[#00BFFF]/20 text-sm sm:text-base ${refreshing ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                    {refreshing ? 'Refreshing...' : 'Refresh'}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    {selectedMessages.size > 0 && (
+                        <button
+                            onClick={openDeleteAllModal}
+                            disabled={actionLoading.deleteAll}
+                            className={`px-3 sm:px-4 py-2 rounded-lg bg-red-500 text-white transition hover:bg-red-600 text-sm sm:text-base ${actionLoading.deleteAll ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                            {actionLoading.deleteAll ? 'Deleting...' : `Delete Selected (${selectedMessages.size})`}
+                        </button>
+                    )}
+                    <button
+                        onClick={() => fetchMessages(true)}
+                        disabled={refreshing}
+                        className={`px-3 sm:px-4 py-2 rounded-lg border border-[#00BFFF]/50 text-[#00BFFF] transition hover:bg-[#00BFFF]/20 text-sm sm:text-base ${refreshing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                        {refreshing ? 'Refreshing...' : 'Refresh'}
+                    </button>
+                </div>
             </div>
 
             {/* Desktop Table View */}
@@ -136,6 +208,14 @@ const GetInTouchSection = () => {
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="bg-[#1b263b]">
+                            <th className="py-3 px-4 text-center text-[#00BFFF]">
+                                <input
+                                    type="checkbox"
+                                    checked={selectAll}
+                                    onChange={handleSelectAll}
+                                    className="w-4 h-4 text-[#00BFFF] bg-transparent border-2 border-[#00BFFF] rounded focus:ring-[#00BFFF] focus:ring-2"
+                                />
+                            </th>
                             <th className="py-3 px-4 text-left text-[#00BFFF]">Name</th>
                             <th className="py-3 px-4 text-left text-[#00BFFF]">Email</th>
                             <th className="py-3 px-4 text-left text-[#00BFFF]">Message</th>
@@ -146,10 +226,18 @@ const GetInTouchSection = () => {
                     </thead>
                     <tbody>
                         {messages.length === 0 ? (
-                            <tr><td colSpan={6} className="py-6 text-center text-white/60">No messages found.</td></tr>
+                            <tr><td colSpan={7} className="py-6 text-center text-white/60">No messages found.</td></tr>
                         ) : (
                             messages.map(msg => (
                                 <tr key={msg.id} className="border-b border-[#232b3e] hover:bg-[#1b263b]/80 transition-all">
+                                    <td className="py-3 px-4 text-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedMessages.has(msg.id)}
+                                            onChange={() => handleSelectMessage(msg.id)}
+                                            className="w-4 h-4 text-[#00BFFF] bg-transparent border-2 border-[#00BFFF] rounded focus:ring-[#00BFFF] focus:ring-2"
+                                        />
+                                    </td>
                                     <td className="py-3 px-4 whitespace-nowrap">{msg.name}</td>
                                     <td className="py-3 px-4 whitespace-nowrap">{msg.email}</td>
                                     <td className="py-3 px-4 max-w-xs truncate" title={msg.message}>{msg.message}</td>
@@ -197,18 +285,28 @@ const GetInTouchSection = () => {
                 ) : (
                     messages.map(msg => (
                         <div key={msg.id} className="bg-[#16213e] rounded-lg shadow-lg border border-[#00BFFF]/20 p-4 sm:p-6 text-white">
-                            {/* Header with name and status */}
-                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-3">
-                                <div>
-                                    <h4 className="text-lg font-semibold text-[#00BFFF]">{msg.name}</h4>
-                                    <p className="text-sm text-white/70 break-all">{msg.email}</p>
-                                </div>
-                                <div className="flex flex-col sm:items-end gap-1">
-                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold w-fit ${msg.status === 'replied'
-                                        ? 'bg-green-500/20 text-green-400 border border-green-400/30'
-                                        : 'bg-yellow-500/20 text-yellow-400 border border-yellow-400/30'
-                                        }`}>{msg.status}</span>
-                                    <span className="text-xs text-white/60">{msg.date}</span>
+                            {/* Header with checkbox, name and status */}
+                            <div className="flex items-start gap-3 mb-3">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedMessages.has(msg.id)}
+                                    onChange={() => handleSelectMessage(msg.id)}
+                                    className="w-4 h-4 text-[#00BFFF] bg-transparent border-2 border-[#00BFFF] rounded focus:ring-[#00BFFF] focus:ring-2 mt-1"
+                                />
+                                <div className="flex-1">
+                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                                        <div>
+                                            <h4 className="text-lg font-semibold text-[#00BFFF]">{msg.name}</h4>
+                                            <p className="text-sm text-white/70 break-all">{msg.email}</p>
+                                        </div>
+                                        <div className="flex flex-col sm:items-end gap-1">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold w-fit ${msg.status === 'replied'
+                                                ? 'bg-green-500/20 text-green-400 border border-green-400/30'
+                                                : 'bg-yellow-500/20 text-yellow-400 border border-yellow-400/30'
+                                                }`}>{msg.status}</span>
+                                            <span className="text-xs text-white/60">{msg.date}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -327,6 +425,33 @@ const GetInTouchSection = () => {
                                 disabled={actionLoading.delete}
                             >
                                 {actionLoading.delete ? 'Deleting...' : 'Delete'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete All Confirmation Modal */}
+            {deleteAllModal.open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                    <div className="bg-[#16213e] p-4 sm:p-6 rounded-lg w-full max-w-sm shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
+                        <h4 className="text-lg font-bold text-red-500 mb-4">Confirm Delete All</h4>
+                        <p className="mb-6 text-sm text-white/90">
+                            Are you sure you want to delete {selectedMessages.size} selected message(s)? This action cannot be undone.
+                        </p>
+                        <div className="flex flex-col sm:flex-row justify-end gap-2">
+                            <button
+                                onClick={closeDeleteAllModal}
+                                className="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDeleteAllConfirm}
+                                className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.6)] active:scale-95"
+                                disabled={actionLoading.deleteAll}
+                            >
+                                {actionLoading.deleteAll ? 'Deleting...' : `Delete ${selectedMessages.size} Message(s)`}
                             </button>
                         </div>
                     </div>
