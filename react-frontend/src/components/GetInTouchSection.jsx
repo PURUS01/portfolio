@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
 import { toast } from 'react-hot-toast';
+
+// Modal component that renders outside the scrollable container
+const Modal = ({ isOpen, onClose, children }) => {
+    if (!isOpen) return null;
+
+    return createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4">
+            <div 
+                className="fixed inset-0" 
+                onClick={onClose}
+            />
+            <div className="relative z-10">
+                {children}
+            </div>
+        </div>,
+        document.body
+    );
+};
 
 const GetInTouchSection = () => {
     const [messages, setMessages] = useState([]);
@@ -59,7 +78,10 @@ const GetInTouchSection = () => {
     // Modal handlers
     const openReplyModal = (id, currentReply = '') => setReplyModal({ open: true, messageId: id, replyText: currentReply });
     const closeReplyModal = () => setReplyModal({ open: false, messageId: null, replyText: '' });
-    const openViewModal = (msg) => setViewModal({ open: true, message: msg });
+    const openViewModal = (msg) => {
+        console.log('Opening view modal for message:', msg);
+        setViewModal({ open: true, message: msg });
+    };
     const closeViewModal = () => setViewModal({ open: false, message: null });
     const openDeleteModal = (id) => setDeleteModal({ open: true, messageId: id });
     const closeDeleteModal = () => setDeleteModal({ open: false, messageId: null });
@@ -257,7 +279,10 @@ const GetInTouchSection = () => {
                                             {actionLoading.reply && replyModal.messageId === msg.id ? 'Saving...' : 'Reply'}
                                         </button>
                                         <button
-                                            onClick={() => openViewModal(msg)}
+                                            onClick={() => {
+                                                console.log('Desktop View button clicked for message:', msg);
+                                                openViewModal(msg);
+                                            }}
                                             className="px-3 py-1 bg-[#232b3e] rounded-lg text-xs transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(35,43,62,0.8)] hover:bg-[#2a3441] active:scale-95"
                                         >
                                             View
@@ -325,7 +350,10 @@ const GetInTouchSection = () => {
                                     {actionLoading.reply && replyModal.messageId === msg.id ? 'Saving...' : 'Reply'}
                                 </button>
                                 <button
-                                    onClick={() => openViewModal(msg)}
+                                    onClick={() => {
+                                        console.log('Mobile View button clicked for message:', msg);
+                                        openViewModal(msg);
+                                    }}
                                     className="flex-1 px-4 py-2 bg-[#232b3e] rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(35,43,62,0.8)] hover:bg-[#2a3441] active:scale-95"
                                 >
                                     View
@@ -343,120 +371,128 @@ const GetInTouchSection = () => {
             </div>
 
             {/* Modals with responsive design */}
-            {replyModal.open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-[#16213e] p-4 sm:p-6 rounded-lg w-full max-w-md shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
-                        <h4 className="text-lg font-bold text-[#00BFFF] mb-4">Reply to Message</h4>
-                        <textarea
-                            className="w-full p-3 rounded bg-[#1b263b] text-white mb-4 text-sm resize-none"
-                            rows={5}
-                            value={replyModal.replyText}
-                            onChange={(e) => setReplyModal({ ...replyModal, replyText: e.target.value })}
-                            placeholder="Type your reply here..."
-                        />
-                        <div className="flex flex-col sm:flex-row justify-end gap-2">
-                            <button
-                                onClick={closeReplyModal}
-                                className="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleReplySave}
-                                className="px-4 py-2 bg-green-500 rounded hover:bg-green-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] active:scale-95"
-                                disabled={actionLoading.reply}
-                            >
-                                {actionLoading.reply ? 'Saving...' : 'Save'}
-                            </button>
-                        </div>
+            <Modal isOpen={replyModal.open} onClose={closeReplyModal}>
+                <div className="bg-[#16213e] p-6 sm:p-6 md:p-8 rounded-lg w-full max-w-lg sm:max-w-lg md:max-w-xl lg:max-w-2xl shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
+                    <h4 className="text-xl md:text-xl font-bold text-[#00BFFF] mb-6">Reply to Message</h4>
+                    <textarea
+                        className="w-full p-4 md:p-4 rounded bg-[#1b263b] text-white mb-6 text-base md:text-base resize-none"
+                        rows={6}
+                        value={replyModal.replyText}
+                        onChange={(e) => setReplyModal({ ...replyModal, replyText: e.target.value })}
+                        placeholder="Type your reply here..."
+                    />
+                    <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-3">
+                        <button
+                            onClick={closeReplyModal}
+                            className="px-6 py-3 md:px-6 md:py-3 bg-gray-500 rounded hover:bg-gray-600 text-base md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleReplySave}
+                            className="px-6 py-3 md:px-6 md:py-3 bg-green-500 rounded hover:bg-green-600 text-base md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] active:scale-95"
+                            disabled={actionLoading.reply}
+                        >
+                            {actionLoading.reply ? 'Saving...' : 'Save'}
+                        </button>
                     </div>
                 </div>
-            )}
+            </Modal>
 
-            {viewModal.open && viewModal.message && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-[#16213e] p-4 sm:p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
-                        <h4 className="text-lg font-bold text-[#00BFFF] mb-4">{viewModal.message.name}'s Message</h4>
-                        <div className="space-y-3 text-sm">
+            <Modal isOpen={viewModal.open} onClose={closeViewModal}>
+                <div className="bg-[#16213e] p-6 sm:p-6 md:p-8 lg:p-10 rounded-lg w-full max-w-lg sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl max-h-[90vh] overflow-y-auto shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
+                    {viewModal.message ? (
+                        <>
+                            <h4 className="text-xl md:text-xl lg:text-2xl font-bold text-[#00BFFF] mb-6 md:mb-6 lg:mb-8">{viewModal.message.name}'s Message</h4>
+                    <div className="space-y-6 md:space-y-6 lg:space-y-8 text-base md:text-base lg:text-lg">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6">
                             <div>
-                                <strong className="text-[#00BFFF]">Email:</strong>
-                                <p className="break-all text-white/90">{viewModal.message.email}</p>
+                                <strong className="text-[#00BFFF] text-base md:text-base lg:text-lg">Email:</strong>
+                                <p className="break-all text-white/90 mt-2 md:mt-2">{viewModal.message?.email}</p>
                             </div>
                             <div>
-                                <strong className="text-[#00BFFF]">Date:</strong>
-                                <p className="text-white/90">{viewModal.message.date}</p>
-                            </div>
-                            <div>
-                                <strong className="text-[#00BFFF]">Message:</strong>
-                                <p className="text-white/90 break-words">{viewModal.message.message}</p>
-                            </div>
-                            <div>
-                                <strong className="text-[#00BFFF]">Reply:</strong>
-                                <p className="text-white/90 break-words">{viewModal.message.reply || 'No reply yet'}</p>
+                                <strong className="text-[#00BFFF] text-base md:text-base lg:text-lg">Date:</strong>
+                                <p className="text-white/90 mt-2 md:mt-2">{viewModal.message?.date}</p>
                             </div>
                         </div>
-                        <div className="flex justify-end mt-6">
+                        <div>
+                            <strong className="text-[#00BFFF] text-base md:text-base lg:text-lg">Message:</strong>
+                            <p className="text-white/90 break-words mt-2 md:mt-2 leading-relaxed">{viewModal.message?.message}</p>
+                        </div>
+                        <div>
+                            <strong className="text-[#00BFFF] text-base md:text-base lg:text-lg">Reply:</strong>
+                            <p className="text-white/90 break-words mt-2 md:mt-2 leading-relaxed">{viewModal.message?.reply || 'No reply yet'}</p>
+                        </div>
+                    </div>
+                            <div className="flex justify-end mt-8 md:mt-8 lg:mt-10">
+                                <button
+                                    onClick={closeViewModal}
+                                    className="px-6 py-3 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-gray-500 rounded hover:bg-gray-600 text-base md:text-base lg:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="text-center text-white/60">
+                            <p>No message data available</p>
                             <button
                                 onClick={closeViewModal}
-                                className="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                                className="mt-4 px-6 py-3 bg-gray-500 rounded hover:bg-gray-600 text-base transition-all duration-300"
                             >
                                 Close
                             </button>
                         </div>
-                    </div>
+                    )}
                 </div>
-            )}
+            </Modal>
 
-            {deleteModal.open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-[#16213e] p-4 sm:p-6 rounded-lg w-full max-w-sm shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
-                        <h4 className="text-lg font-bold text-red-500 mb-4">Confirm Delete</h4>
-                        <p className="mb-6 text-sm text-white/90">Are you sure you want to delete this message?</p>
-                        <div className="flex flex-col sm:flex-row justify-end gap-2">
-                            <button
-                                onClick={closeDeleteModal}
-                                className="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteConfirm}
-                                className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.6)] active:scale-95"
-                                disabled={actionLoading.delete}
-                            >
-                                {actionLoading.delete ? 'Deleting...' : 'Delete'}
-                            </button>
-                        </div>
+            <Modal isOpen={deleteModal.open} onClose={closeDeleteModal}>
+                <div className="bg-[#16213e] p-4 sm:p-6 md:p-8 rounded-lg w-full max-w-sm sm:max-w-md md:max-w-lg shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
+                    <h4 className="text-lg md:text-xl font-bold text-red-500 mb-4 md:mb-6">Confirm Delete</h4>
+                    <p className="mb-6 md:mb-8 text-sm md:text-base text-white/90">Are you sure you want to delete this message?</p>
+                    <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-3">
+                        <button
+                            onClick={closeDeleteModal}
+                            className="px-4 py-2 md:px-6 md:py-3 bg-gray-500 rounded hover:bg-gray-600 text-sm md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleDeleteConfirm}
+                            className="px-4 py-2 md:px-6 md:py-3 bg-red-500 rounded hover:bg-red-600 text-sm md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.6)] active:scale-95"
+                            disabled={actionLoading.delete}
+                        >
+                            {actionLoading.delete ? 'Deleting...' : 'Delete'}
+                        </button>
                     </div>
                 </div>
-            )}
+            </Modal>
 
             {/* Delete All Confirmation Modal */}
-            {deleteAllModal.open && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="bg-[#16213e] p-4 sm:p-6 rounded-lg w-full max-w-sm shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
-                        <h4 className="text-lg font-bold text-red-500 mb-4">Confirm Delete All</h4>
-                        <p className="mb-6 text-sm text-white/90">
-                            Are you sure you want to delete {selectedMessages.size} selected message(s)? This action cannot be undone.
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-end gap-2">
-                            <button
-                                onClick={closeDeleteAllModal}
-                                className="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteAllConfirm}
-                                className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 text-sm transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.6)] active:scale-95"
-                                disabled={actionLoading.deleteAll}
-                            >
-                                {actionLoading.deleteAll ? 'Deleting...' : `Delete ${selectedMessages.size} Message(s)`}
-                            </button>
-                        </div>
+            <Modal isOpen={deleteAllModal.open} onClose={closeDeleteAllModal}>
+                <div className="bg-[#16213e] p-4 sm:p-6 md:p-8 rounded-lg w-full max-w-sm sm:max-w-md md:max-w-lg shadow-lg transform transition-transform duration-300 scale-95 animate-scale-in">
+                    <h4 className="text-lg md:text-xl font-bold text-red-500 mb-4 md:mb-6">Confirm Delete All</h4>
+                    <p className="mb-6 md:mb-8 text-sm md:text-base text-white/90">
+                        Are you sure you want to delete {selectedMessages.size} selected message(s)? This action cannot be undone.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-3">
+                        <button
+                            onClick={closeDeleteAllModal}
+                            className="px-4 py-2 md:px-6 md:py-3 bg-gray-500 rounded hover:bg-gray-600 text-sm md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_12px_rgba(107,114,128,0.5)] active:scale-95"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleDeleteAllConfirm}
+                            className="px-4 py-2 md:px-6 md:py-3 bg-red-500 rounded hover:bg-red-600 text-sm md:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.6)] active:scale-95"
+                            disabled={actionLoading.deleteAll}
+                        >
+                            {actionLoading.deleteAll ? 'Deleting...' : `Delete ${selectedMessages.size} Message(s)`}
+                        </button>
                     </div>
                 </div>
-            )}
+            </Modal>
         </section>
     );
 };
