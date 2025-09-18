@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
 import { firestore } from '../firebase'; // Import from src/firebase.js
 import emailjs from '@emailjs/browser';
@@ -8,12 +8,34 @@ function GetInTouchPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [toEmail, setToEmail] = useState('');
   const formRef = useRef();
 
   // EmailJS configuration from environment variables only
   const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
   const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
   const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+  // Fetch email from about data
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const aboutRef = doc(firestore, "portfolion", "about");
+        const snapshot = await getDoc(aboutRef);
+        
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          console.log('Fetched about data:', data);
+          console.log('Setting toEmail to:', data.email);
+          setToEmail(data.email || '');
+        }
+      } catch (error) {
+        console.error('Error fetching about data:', error);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
 
   // Combined function that handles both Firebase and EmailJS in one try-catch
   const sendEmail = async (e) => {
@@ -54,6 +76,14 @@ function GetInTouchPage() {
       }
 
       // Step 2: Send email via EmailJS
+      console.log('Sending email with toEmail:', toEmail);
+      console.log('Form data:', {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+        to_email: toEmail
+      });
+      
       await emailjs.sendForm(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
@@ -133,8 +163,6 @@ function GetInTouchPage() {
     // Message validation
     if (!form.message.trim()) {
       newErrors.message = 'Message is required';
-    } else if (form.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
     } else if (form.message.trim().length > 1000) {
       newErrors.message = 'Message must be less than 1000 characters';
     }
@@ -211,6 +239,8 @@ function GetInTouchPage() {
 
               {/* Form */}
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                {/* Hidden input for to_email */}
+                <input type="hidden" name="to_email" value={toEmail} />
                 <div>
                   <input
                     type="text"
