@@ -173,7 +173,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="flex-1 flex flex-col px-2 sm:px-4 md:px-12 py-4 md:py-10 min-w-0">
+                <div className="flex-1 flex flex-col px-2 sm:px-4 md:px-4 py-2 md:py-4 lg:py-6 min-w-0">
                     {/* Desktop Floating Toggle Button - Only visible when sidebar is collapsed */}
                     {!sidebarOpen && (
                         <button
@@ -218,25 +218,26 @@ export default function DashboardPage() {
                     </div>
                     
                     <div className="flex-1 flex items-center justify-center">
-                        <div className="w-full sm:w-[95%] md:w-[90%] h-full max-h-[85vh] md:max-h-[80vh] bg-[#0a192f]/80 rounded-2xl shadow-[0_0_32px_4px_#00BFFF55] backdrop-blur-xl border border-[#00BFFF]/20 p-4 sm:p-6 md:p-16 flex flex-col items-center animate-fade-in overflow-y-auto animated-scrollbar glowing-scrollbar">
+                        <div className="w-full h-[85vh] sm:h-[88vh] md:h-[90vh] lg:h-[85vh] xl:h-[88vh] bg-[#0a192f]/80 rounded-2xl shadow-[0_0_32px_4px_#00BFFF55] backdrop-blur-xl border border-[#00BFFF]/20 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col items-center animate-fade-in overflow-y-auto animated-scrollbar glowing-scrollbar">
                             {activeTab === 'about' && <AboutSection />}
                             {activeTab === 'projects' && <ProjectsSection />}
                             {activeTab === 'getintouch' && <GetInTouchSection />}
                         </div>
                     </div>
+                    
+                    {/* Home Button - Fixed position outside scrollable content - Desktop only */}
+                    <a
+                        href="/"
+                        className="hidden md:block fixed top-4 right-4 z-50 bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white rounded-full shadow-2xl p-3 flex items-center justify-center border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-110 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50"
+                        style={{ boxShadow: '0 4px 32px 0 #00BFFF80, 0 1.5px 8px 0 #0077C880', background: 'rgba(0, 191, 255, 0.15)' }}
+                        aria-label="Go to home"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#00BFFF" className="w-7 h-7 drop-shadow-lg transition-all duration-500">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h5m5-11v11a1 1 0 001 1h5" />
+                        </svg>
+                    </a>
                 </div>
 
-                {/* Desktop Home Navlink Top Right */}
-                <a
-                    href="/"
-                    className="hidden md:block fixed top-8 right-8 z-50 bg-gradient-to-br from-[#0077C8]/60 via-[#00BFFF]/40 to-[#00FFB2]/30 text-white rounded-full shadow-2xl p-3 flex items-center justify-center border border-[#00BFFF]/30 backdrop-blur-md transition-all duration-500 hover:scale-110 hover:shadow-blue-400/50 hover:bg-gradient-to-br hover:from-[#00BFFF]/80 hover:via-[#0077C8]/60 hover:to-[#00FFB2]/50"
-                    style={{ boxShadow: '0 4px 32px 0 #00BFFF80, 0 1.5px 8px 0 #0077C880', background: 'rgba(0, 191, 255, 0.15)' }}
-                    aria-label="Go to home"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#00BFFF" className="w-7 h-7 drop-shadow-lg transition-all duration-500">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h5m5-11v11a1 1 0 001 1h5" />
-                    </svg>
-                </a>
             </div>
         </>
     );
