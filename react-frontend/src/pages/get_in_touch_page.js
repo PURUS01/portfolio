@@ -1,12 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
 import { firestore } from '../firebase'; // Import from src/firebase.js
+import emailjs from '@emailjs/browser';
 
 function GetInTouchPage() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const formRef = useRef();
+
+  // EmailJS configuration from environment variables only
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+  // Combined function that handles both Firebase and EmailJS in one try-catch
+  const sendEmail = async (e) => {
+    e.preventDefault();
+
+    // Validate environment variables
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setErrors({ 
+        general: 'Email service configuration missing. Please contact support.'
+      });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Step 1: Save to Firebase
+      const messagesRef = doc(firestore, 'portfolion', 'messages');
+
+      const messageData = {
+        id: Date.now(),
+        name: form.name.trim(),
+        email: form.email.trim(),
+        message: form.message.trim(),
+        reply: '',
+        createdAt: new Date(),
+        status: 'unread'
+      };
+
+      const docSnap = await getDoc(messagesRef);
+      if (docSnap.exists()) {
+        await updateDoc(messagesRef, {
+          messages: arrayUnion(messageData)
+        });
+      } else {
+        await setDoc(messagesRef, {
+          messages: [messageData]
+        });
+      }
+
+      // Step 2: Send email via EmailJS
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        {
+          publicKey: EMAILJS_PUBLIC_KEY,
+        }
+      );
+
+      // Both operations successful - show success message
+      setSubmitted(true);
+      setForm({ name: '', email: '', message: '' });
+      setErrors({});
+
+      // Reset submitted state after 4 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 4000);
+
+    } catch (error) {
+      console.error('Detailed error:', error);
+      console.error('Error status:', error.status);
+      console.error('Error code:', error.code);
+      console.error('Error text:', error.text);
+      
+      // Set specific error message based on the error type
+      let errorMessage = 'Failed to send message. Please try again.';
+      
+      if (error.code === 'permission-denied') {
+        errorMessage = 'Database access denied. Please contact support.';
+      } else if (error.code === 'unavailable') {
+        errorMessage = 'Service temporarily unavailable. Please try again later.';
+      } else if (error.status === 400) {
+        errorMessage = 'Invalid email configuration. Please contact support.';
+      } else if (error.status === 401) {
+        errorMessage = 'Email service authentication failed. Please contact support.';
+      } else if (error.status === 403) {
+        errorMessage = 'Email service access denied. Please contact support.';
+      } else if (error.status === 404) {
+        errorMessage = 'Email template not found. Please contact support.';
+      } else if (error.status === 412) {
+        errorMessage = 'Gmail authentication failed. Please contact support.';
+      } else if (error.status === 429) {
+        errorMessage = 'Too many requests. Please wait a moment and try again.';
+      } else if (error.status >= 500) {
+        errorMessage = 'Service temporarily unavailable. Please try again later.';
+      }
+      
+      setErrors({ 
+        general: errorMessage
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -49,61 +151,21 @@ function GetInTouchPage() {
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
     }
+    
+    // Clear general error when user starts typing
+    if (errors.general) {
+      setErrors({ ...errors, general: '' });
+    }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     // Validate form before submitting
     if (!validateForm()) {
       return;
     }
 
     setLoading(true);
-
-    try {
-      // Add message to the messages document as an array item
-      const messagesRef = doc(firestore, 'portfolion', 'messages');
-
-      const messageData = {
-        id: Date.now(), // Simple ID based on timestamp
-        name: form.name.trim(),
-        email: form.email.trim(),
-        message: form.message.trim(),
-        reply: '', // Empty reply column for dashboard
-        createdAt: new Date(),
-        status: 'unread'
-      };
-
-      // Check if document exists, if not create it
-      const docSnap = await getDoc(messagesRef);
-      if (docSnap.exists()) {
-        // Document exists, add to messages array
-        await updateDoc(messagesRef, {
-          messages: arrayUnion(messageData)
-        });
-      } else {
-        // Document doesn't exist, create it with first message
-        await setDoc(messagesRef, {
-          messages: [messageData]
-        });
-      }
-
-      setSubmitted(true);
-      setForm({ name: '', email: '', message: '' });
-      setErrors({});
-
-      // Reset submitted state after 4 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 4000);
-
-    } catch (error) {
-      console.error('Error adding message: ', error);
-      alert('Error sending message. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    await sendEmail(e);
   };
 
   return (
@@ -139,8 +201,16 @@ function GetInTouchPage() {
                 </div>
               )}
 
+              {/* General Error Message */}
+              {errors.general && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-400/30 rounded-2xl text-center animate-fadeInUp">
+                  <div className="text-red-400 text-lg font-semibold mb-1">✗ Error Sending Message</div>
+                  <p className="text-red-300/80 text-sm">{errors.general}</p>
+                </div>
+              )}
+
               {/* Form */}
-              <div className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <input
                     type="text"
@@ -219,7 +289,7 @@ function GetInTouchPage() {
                     </span>
                   )}
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
