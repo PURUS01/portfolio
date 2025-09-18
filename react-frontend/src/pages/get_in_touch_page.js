@@ -16,6 +16,13 @@ function GetInTouchPage() {
   const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
   const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
+  // Debug logging for production
+  console.log('EmailJS Config Check:', {
+    serviceId: EMAILJS_SERVICE_ID ? 'Present' : 'Missing',
+    templateId: EMAILJS_TEMPLATE_ID ? 'Present' : 'Missing',
+    publicKey: EMAILJS_PUBLIC_KEY ? 'Present' : 'Missing'
+  });
+
   // Fetch email from about data
   useEffect(() => {
     const fetchAboutData = async () => {
@@ -106,8 +113,13 @@ function GetInTouchPage() {
     } catch (error) {
       console.error('Detailed error:', error);
       console.error('Error status:', error.status);
-      console.error('Error code:', error.code);
       console.error('Error text:', error.text);
+      console.error('EmailJS Config at time of error:', {
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: EMAILJS_TEMPLATE_ID,
+        publicKey: EMAILJS_PUBLIC_KEY ? 'Present' : 'Missing'
+      });
+      console.error('Error code:', error.code);
       
       // Set specific error message based on the error type
       let errorMessage = 'Failed to send message. Please try again.';
