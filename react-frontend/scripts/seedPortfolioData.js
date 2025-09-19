@@ -25,6 +25,7 @@ async function run() {
                 { degree: "MSc in Software Engineering", university: "University of Colombo", year: "2016-2018" },
             ],
             email: "purus5@gmail.com",
+            workedWith: ["Bohar Solutions"],
             experiences: [
                 {
                     company: "ABC Tech Solutions",

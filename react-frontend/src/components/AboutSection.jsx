@@ -19,6 +19,7 @@ export default function AboutSection() {
     const [email, setEmail] = useState('');
     const [bio, setBio] = useState('');
     const [skills, setSkills] = useState([]);
+    const [workedWith, setWorkedWith] = useState([]);
     const [experiences, setExperiences] = useState([
         { period: "", title: "", company: "", description: "" },
     ]);
@@ -53,6 +54,15 @@ export default function AboutSection() {
                             label: skill
                         }));
                         setSkills(skillsFormatted);
+                    }
+
+                    // Handle workedWith array - convert strings to objects for CreatableSelect
+                    if (data.workedWith && Array.isArray(data.workedWith)) {
+                        const workedWithFormatted = data.workedWith.map(company => ({
+                            value: company,
+                            label: company
+                        }));
+                        setWorkedWith(workedWithFormatted);
                     }
 
                     // Handle experiences array
@@ -128,6 +138,7 @@ export default function AboutSection() {
                 bio,
                 educationList,
                 skills: skills.map(skill => skill.value),
+                workedWith: workedWith.map(company => company.value),
                 experiences,
                 updatedAt: new Date(),
             };
@@ -347,6 +358,77 @@ export default function AboutSection() {
                         />
                     </div>
                 </div>
+
+                {/* Worked With */}
+                <div className="w-full flex flex-col gap-3">
+                    <label className="text-[#00BFFF] font-semibold mb-1 text-base">Worked With</label>
+                    <div className="group">
+                        <CreatableSelect
+                            onChange={(e) => setWorkedWith(e)}
+                            value={workedWith}
+                            isMulti
+                            classNamePrefix="react-select"
+                            placeholder="Select or type to add companies..."
+                            options={[
+                                { value: 'Bohar Solutions', label: 'Bohar Solutions' },
+                                { value: 'Tech Corp', label: 'Tech Corp' },
+                                { value: 'Digital Agency', label: 'Digital Agency' },
+                                { value: 'Startup Inc', label: 'Startup Inc' },
+                                { value: 'Web Solutions', label: 'Web Solutions' },
+                                { value: 'Software House', label: 'Software House' },
+                                { value: 'IT Company', label: 'IT Company' },
+                                { value: 'Consulting Firm', label: 'Consulting Firm' },
+                            ]}
+                            styles={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    backgroundColor: 'rgba(255,255,255,0.08)',
+                                    borderColor: state.isFocused ? '#00BFFF' : 'transparent',
+                                    borderWidth: state.isFocused ? '2px' : '2px',
+                                    color: 'white',
+                                    boxShadow: state.isFocused ? '0 0 16px 2px #00BFFF' : 'none',
+                                    borderRadius: '0.75rem',
+                                    minHeight: '48px',
+                                    transition: 'box-shadow 0.3s, border-color 0.3s',
+                                }),
+                                multiValue: (base) => ({
+                                    ...base,
+                                    backgroundColor: '#00BFFF22',
+                                    color: '#00BFFF',
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    color: '#00BFFF',
+                                }),
+                                option: (base, state) => ({
+                                    ...base,
+                                    backgroundColor: state.isSelected ? '#00BFFF55' : 'rgba(10,25,47,0.8)',
+                                    color: 'white',
+                                }),
+                                menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: 'rgba(10,25,47,0.95)',
+                                }),
+                                input: (base) => ({
+                                    ...base,
+                                    color: 'white',
+                                }),
+                                singleValue: (base) => ({
+                                    ...base,
+                                    color: 'white',
+                                }),
+                            }}
+                            isHovered={false}
+                            onMenuOpen={() => {
+                                document.querySelector('.group').classList.add('hovered');
+                            }}
+                            onMenuClose={() => {
+                                document.querySelector('.group').classList.remove('hovered');
+                            }}
+                        />
+                    </div>
+                </div>
+
                 {/* Professional Experience */}
                 <div className="w-full flex flex-col gap-6 md:gap-6">
                     <label className="text-[#00BFFF] font-semibold mb-1 text-base">Professional Experience</label>

@@ -20,6 +20,7 @@ function HomePage() {
             name: `${fetchedData.firstName} ${fetchedData.lastName}`,
             title: `${fetchedData.title}`,
             profileImage: `${fetchedData.profileImage}`,
+            workedWith: fetchedData.workedWith || [],
           };
           setData(fixedData);
         } else {
@@ -258,14 +259,21 @@ function HomePage() {
         </div>
 
         {/* Worked with section */}
-        <div className="relative z-10 max-w-5xl mx-auto mt-8 mb-20 px-6 animate-fadeInUp" style={{ animationDelay: '1.5s' }}>
-          <p className="text-sm text-gray-400 uppercase tracking-widest mb-8 text-center">Worked with</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center text-gray-300">
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 py-4 px-6 rounded-xl hover:bg-white/10 hover:border-[#0077C8]/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-[#0077C8]/20">
-              Bohar Solutions
+        {data.workedWith && data.workedWith.length > 0 && (
+          <div className="relative z-10 max-w-5xl mx-auto mt-8 mb-20 px-6 animate-fadeInUp" style={{ animationDelay: '1.5s' }}>
+            <p className="text-sm text-gray-400 uppercase tracking-widest mb-8 text-center">Worked with</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center text-gray-300">
+              {data.workedWith.map((company, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/5 backdrop-blur-md border border-white/10 py-4 px-6 rounded-xl hover:bg-white/10 hover:border-[#0077C8]/50 hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-[#0077C8]/20"
+                >
+                  {company}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <style jsx>{`
