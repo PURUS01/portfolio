@@ -24,8 +24,8 @@ async function run() {
                 { degree: "BSc in Computer Science", university: "University of Jaffna", year: "2010-2015" },
                 { degree: "MSc in Software Engineering", university: "University of Colombo", year: "2016-2018" },
             ],
-            email: "purus5@gmail.com",
-            workedWith: ["Bohar Solutions"],
+            email: "ABC@gmail.com",
+            workedWith: ["ABC Solutions"],
             experiences: [
                 {
                     company: "ABC Tech Solutions",
@@ -40,8 +40,8 @@ async function run() {
                     title: "Full Stack Developer",
                 },
             ],
-            firstName: "Kukanenthiran",
-            lastName: "Purusothman",
+            firstName: "firstName",
+            lastName: "lastName",
             skills: ["Laravel", "JavaScript", "Tailwind CSS", "HTML5", "REST APIs", "MySQL", "React"],
             title: "Full Stack Developer",
         });
